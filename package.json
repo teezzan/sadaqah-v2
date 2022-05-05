@@ -1,0 +1,29 @@
+{
+  "name": "sadaqah",
+  "version": "1.0.0",
+  "description": "A platform for providing needed tools to ease sadaqah for groups.",
+  "keywords": [
+    "typeorm"
+  ],
+  "scripts": {
+    "docker-build": "docker build -t sadaqah:latest .",
+    "docker-push": "docker push",
+    "build": "rimraf build && tsc",
+    "start": "nodemon --exec ts-node src/index.ts",
+    "start-server": "node build/index.js"
+  },
+  "author": "Taiwo Hassan",
+  "license": "ISC",
+  "dependencies": {
+    "@types/restify": "^5.0.11",
+    "mysql": "^2.18.1",
+    "nodemon": "^1.19.4",
+    "pg": "^7.18.2",
+    "reflect-metadata": "^0.1.13",
+    "restify": "^6.4.0",
+    "rimraf": "^2.7.1",
+    "ts-node": "^3.3.0",
+    "typeorm": "0.1.15",
+    "typescript": "^2.9.2"
+  }
+}
