@@ -13,4 +13,4 @@ DatabaseProvider.configure({
 });
 
 const server = new ApiServer();
-server.start(+process.env.PORT || 8080);
+server.start(+process.env.PORT || 3000);
