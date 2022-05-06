@@ -1,4 +1,5 @@
 import * as winston from 'winston'
+import config = require('../config');
 
 const logger: winston.Logger = winston.createLogger({
     level: 'info',
@@ -10,7 +11,7 @@ const logger: winston.Logger = winston.createLogger({
         winston.format.splat(),
         winston.format.json()
     ),
-    defaultMeta: { service: 'sadaqah' },
+    defaultMeta: { service: config.appName },
     transports: []
 });
 
