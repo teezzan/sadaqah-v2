@@ -2,6 +2,7 @@ import {HttpServer} from './httpServer';
 import {RequestHandler, Server} from 'restify';
 import * as restify from 'restify';
 import {CONTROLLERS} from '../controllers/index';
+import logger = require('../utils/logger');
 
 export class ApiServer implements HttpServer {
     private restify: Server;
@@ -28,11 +29,11 @@ export class ApiServer implements HttpServer {
                 await requestHandler(req, res, next);
             }
             catch (e) {
-                console.log(e);
+                logger.error(e);
                 res.send(500, e);
             }
         });
-        console.log(`Added route ${method.toUpperCase()} ${url}`);
+        logger.info(`Added route ${method.toUpperCase()} ${url}`);
     }
 
     public start(port: number): void {
@@ -42,7 +43,7 @@ export class ApiServer implements HttpServer {
 
         this.addControllers();
 
-        this.restify.listen(port, () => console.log(`Server is up & running on port ${port}`));
+        this.restify.listen(port, () => logger.info(`Server is up & running on port ${port}`));
     }
 
     private addControllers(): void {
