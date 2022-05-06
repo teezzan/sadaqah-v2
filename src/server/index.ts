@@ -2,7 +2,7 @@ import {HttpServer} from './httpServer';
 import {RequestHandler, Server} from 'restify';
 import * as restify from 'restify';
 import {CONTROLLERS} from '../controllers/index';
-import logger = require('../utils/logger');
+const logger = require('../utils/logger');
 
 export class ApiServer implements HttpServer {
     private restify: Server;
