@@ -9,7 +9,7 @@ describe("Ping Controller Test", () => {
     test("Check Server Availability", async () => {
         const response = await request(server).get("/hello")
         expect(response.status).toBe(200)
-        console.log(response.body);
+        expect(response.body).toBe("Hello World!")
         
     })
 

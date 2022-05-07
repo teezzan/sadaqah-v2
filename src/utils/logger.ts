@@ -20,8 +20,9 @@ if (process.env.NODE_ENV !== 'production') {
         format: winston.format.combine(
             winston.format.colorize(),
             winston.format.simple()
-        )
-    }));
+        ),
+        silent: process.env.NODE_ENV === 'test'
+    }))
 } else {
     logger.add(new winston.transports.Console());
 }

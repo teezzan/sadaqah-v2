@@ -1,7 +1,7 @@
-import {HttpServer} from './httpServer';
-import {RequestHandler, Server} from 'restify';
+import { HttpServer } from './httpServer';
+import { RequestHandler, Server } from 'restify';
 import * as restify from 'restify';
-import {CONTROLLERS} from '../controllers/index';
+import { CONTROLLERS } from '../controllers/index';
 const logger = require('../utils/logger');
 
 export class ApiServer implements HttpServer {
@@ -24,8 +24,6 @@ export class ApiServer implements HttpServer {
     }
 
     private addRoute(method: 'get' | 'post' | 'put' | 'del', url: string, requestHandler: RequestHandler): void {
-        console.log(url);
-        
         this.restify[method](url, async (req, res, next) => {
             try {
                 await requestHandler(req, res, next);
