@@ -1,8 +1,8 @@
-import {HttpServer} from './httpServer';
-import {RequestHandler, Server} from 'restify';
+import { HttpServer } from './httpServer';
+import { RequestHandler, Server } from 'restify';
 import * as restify from 'restify';
-import {CONTROLLERS} from '../controllers/index';
-import logger = require('../utils/logger');
+import { CONTROLLERS } from '../controllers/index';
+const logger = require('../utils/logger');
 
 export class ApiServer implements HttpServer {
     private restify: Server;
@@ -36,7 +36,7 @@ export class ApiServer implements HttpServer {
         logger.info(`Added route ${method.toUpperCase()} ${url}`);
     }
 
-    public start(port: number): void {
+    public start(port: number): Server {
         this.restify = restify.createServer();
         this.restify.use(restify.plugins.queryParser());
         this.restify.use(restify.plugins.bodyParser());
@@ -44,6 +44,7 @@ export class ApiServer implements HttpServer {
         this.addControllers();
 
         this.restify.listen(port, () => logger.info(`Server is up & running on port ${port}`));
+        return this.restify
     }
 
     private addControllers(): void {
