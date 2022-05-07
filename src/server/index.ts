@@ -1,53 +1,16 @@
-import { HttpServer } from './httpServer';
-import { RequestHandler, Server } from 'restify';
-import * as restify from 'restify';
-import { CONTROLLERS } from '../controllers/index';
+import 'reflect-metadata';
 import * as logger from '../utils/logger'
+import * as restify from 'restify';
 
-export class ApiServer implements HttpServer {
-    private restify: Server;
+import Route from '../routes'
 
-    public get(url: string, requestHandler: RequestHandler): void {
-        this.addRoute('get', url, requestHandler);
-    }
+const server  = restify.createServer()
 
-    public post(url: string, requestHandler: RequestHandler): void {
-        this.addRoute('post', url, requestHandler);
-    }
+server.pre(restify.pre.sanitizePath())
+server.use(restify.plugins.bodyParser())
 
-    public del(url: string, requestHandler: RequestHandler): void {
-        this.addRoute('del', url, requestHandler);
-    }
+logger.info('loading routes')
 
-    public put(url: string, requestHandler: RequestHandler): void {
-        this.addRoute('put', url, requestHandler);
-    }
+Route(server)
 
-    private addRoute(method: 'get' | 'post' | 'put' | 'del', url: string, requestHandler: RequestHandler): void {
-        this.restify[method](url, async (req, res, next) => {
-            try {
-                await requestHandler(req, res, next);
-            }
-            catch (e) {
-                logger.error(e);
-                res.send(500, e);
-            }
-        });
-        logger.info(`Added route ${method.toUpperCase()} ${url}`);
-    }
-
-    public start(port: number): Server {
-        this.restify = restify.createServer();
-        this.restify.use(restify.plugins.queryParser());
-        this.restify.use(restify.plugins.bodyParser());
-
-        this.addControllers();
-
-        this.restify.listen(port, () => logger.info(`Server is up & running on port ${port}`));
-        return this.restify
-    }
-
-    private addControllers(): void {
-        CONTROLLERS.forEach(controller => controller.initialize(this));
-    }
-}
+export default server

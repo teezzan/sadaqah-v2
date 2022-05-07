@@ -1,3 +1,5 @@
+const API_ROOT  = '/api'
+
 export = {
     appName: 'sadaqah',
     databaseSettings: {
@@ -10,6 +12,9 @@ export = {
     },
     HTTP:{
         port:+process.env.PORT || 3000
+    },
+    basePath    : (path: string) : string=> {
+        return API_ROOT.replace(/\/$/, '') + '/' + path.replace(/^\//, '')
     }
 
 }
