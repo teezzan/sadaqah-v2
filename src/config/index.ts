@@ -1,5 +1,6 @@
 const API_ROOT  = '/api'
 
+
 export = {
     appName: 'sadaqah',
     databaseSettings: {
@@ -15,6 +16,7 @@ export = {
     },
     basePath    : (path: string) : string=> {
         return API_ROOT.replace(/\/$/, '') + '/' + path.replace(/^\//, '')
-    }
+    },
+    serviceAccount: JSON.parse(Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64, 'base64').toString('ascii'))
 
 }
