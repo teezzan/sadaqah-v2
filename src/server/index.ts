@@ -24,6 +24,8 @@ export class ApiServer implements HttpServer {
     }
 
     private addRoute(method: 'get' | 'post' | 'put' | 'del', url: string, requestHandler: RequestHandler): void {
+        console.log(url);
+        
         this.restify[method](url, async (req, res, next) => {
             try {
                 await requestHandler(req, res, next);
@@ -36,7 +38,7 @@ export class ApiServer implements HttpServer {
         logger.info(`Added route ${method.toUpperCase()} ${url}`);
     }
 
-    public start(port: number): void {
+    public start(port: number): Server {
         this.restify = restify.createServer();
         this.restify.use(restify.plugins.queryParser());
         this.restify.use(restify.plugins.bodyParser());
@@ -44,6 +46,7 @@ export class ApiServer implements HttpServer {
         this.addControllers();
 
         this.restify.listen(port, () => logger.info(`Server is up & running on port ${port}`));
+        return this.restify
     }
 
     private addControllers(): void {
