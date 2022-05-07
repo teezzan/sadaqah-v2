@@ -11,8 +11,8 @@
     "build": "rimraf build && tsc",
     "start": "nodemon --exec ts-node src/index.ts",
     "start-server": "node build/index.js",
-    "test": "NODE_ENV=test node --expose-gc ./node_modules/.bin/jest --verbose --runInBand --detectOpenHandles --forceExit --logHeapUsage --coverage=false src/tests/controllers/pingController.test.ts"
-
+    "test": "jest --detectOpenHandles",
+    "test-one": "NODE_ENV=test node --expose-gc ./node_modules/.bin/jest --verbose --runInBand --detectOpenHandles --forceExit --logHeapUsage --coverage=false src/tests/controllers/pingController.test.ts"
   },
   "author": "Taiwo Hassan",
   "license": "ISC",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.5.0",
-    "jest": "^28.1.0"
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.1"
   }
 }
