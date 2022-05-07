@@ -1,17 +1,8 @@
-import 'reflect-metadata';
-import { ApiServer } from './server/index';
-import { DatabaseProvider } from './database/index';
-import config = require('./config');
+import config = require('./config')
+import server from './server'
+import * as logger from './utils/logger'
 
-DatabaseProvider.configure({
-    type: 'mysql',
-    database: config.databaseSettings.databaseName,
-    username: config.databaseSettings.username,
-    password: config.databaseSettings.password,
-    host: config.databaseSettings.host,
-    port: config.databaseSettings.port,
-    ssl: config.databaseSettings.ssl
-});
 
-const server = new ApiServer();
-server.start(config.HTTP.port);
+server.listen(config.HTTP.port)
+logger.info('Listening on PORT %d', config.HTTP.port)
+
