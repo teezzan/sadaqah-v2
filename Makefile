@@ -30,3 +30,8 @@ lint: ## Lint codebase
 serve: ## Start local server
 	@echo 'Starting server'
 	npm run start
+
+.PHONY: build-image
+build-image: ## Build docker image
+	@echo '==> Building sadaqah:latest image'
+	docker build -t sadaqah:latest .
