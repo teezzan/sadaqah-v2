@@ -1,6 +1,6 @@
 import server from "../helpers";
+import * as request from "supertest"
 
-const request = require("supertest")
 describe("Ping Controller Test", () => {
     afterAll(()=>{
         server.close()
