@@ -8,10 +8,10 @@ describe("Ping Controller Test", () => {
   });
 
   test("Check Server Availability", async () => {
-    const response = await request(server).get("/api/ping");
+    const response = await request(server).get("/api/freeping");
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject({
-      ping: "OK",
+      ping: "Non-Authorized OK",
     });
   });
 });

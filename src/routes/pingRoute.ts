@@ -1,10 +1,14 @@
 import { Router } from "restify-router";
 
-import { pingAndGetOKResponse } from "../controllers/PingController";
+import {
+  authorizedPingAndGetOKResponse,
+  unAuthorizedPingAndGetOKResponse,
+} from "../controllers/PingController";
 import { authentication } from "../middleware/Auth";
 
 var PingRouter = new Router();
 
-PingRouter.get("/ping", authentication, pingAndGetOKResponse);
+PingRouter.get("/ping", authentication, authorizedPingAndGetOKResponse);
+PingRouter.get("/freeping", unAuthorizedPingAndGetOKResponse);
 
 export default PingRouter;
