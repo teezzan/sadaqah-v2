@@ -2,7 +2,7 @@ import "reflect-metadata";
 import * as logger from "../utils/logger";
 import * as restify from "restify";
 
-import Route from "../routes";
+import Routes from "../routes";
 
 const server = restify.createServer();
 
@@ -11,7 +11,7 @@ server.use(restify.plugins.bodyParser());
 
 logger.info("loading routes");
 
-Route(server);
+Routes(server);
 
 server.get(
   "/", // don't forget the `/*`

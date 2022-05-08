@@ -26,6 +26,7 @@
     "pg": "^8.7.3",
     "restify": "^8.6.1",
     "restify-errors": "^8.0.2",
+    "restify-router": "^0.6.2",
     "supertest": "^6.2.3",
     "ts-node": "^10.7.0",
     "typeorm": "^0.3.6",

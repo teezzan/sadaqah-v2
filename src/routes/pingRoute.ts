@@ -1,13 +1,9 @@
-import { Server } from "restify";
-import config = require("../config");
+import { Router } from "restify-router";
+
 import { pingAndGetOKResponse } from "../controllers/PingController";
 
-const PingRoute = (server: Server) => {
-  server.get(
-    { path: config.basePath("/ping"), version: "1.0.0" },
-    pingAndGetOKResponse
-  );
-  
-};
+var PingRouter = new Router();
 
-export default PingRoute;
+PingRouter.get("/ping", pingAndGetOKResponse);
+
+export default PingRouter;
