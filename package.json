@@ -19,6 +19,7 @@
   "dependencies": {
     "@types/node": "^17.0.31",
     "@types/restify": "^8.5.4",
+    "@types/restify-errors": "^4.3.4",
     "dotenv": "^16.0.0",
     "firebase-admin": "^10.2.0",
     "mysql": "^2.18.1",
