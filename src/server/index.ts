@@ -8,6 +8,8 @@ const server = restify.createServer();
 
 server.pre(restify.pre.sanitizePath());
 server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.queryParser());
+server.pre(restify.plugins.pre.context());
 
 logger.info("loading routes");
 
