@@ -13,7 +13,6 @@ jobs:
         with:
           envkey_FIREBASE_SERVICE_ACCOUNT_BASE64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE64 }}
           envkey_MIXPANEL_PROJECT_TOKEN: ${{ secrets.MIXPANEL_PROJECT_TOKEN }}
-          directory: ./
           file_name: .env
           fail_on_empty: false
   build:
