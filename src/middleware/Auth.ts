@@ -1,7 +1,9 @@
 import admin = require("../utils/firebase");
 import errors from "restify-errors";
+import { Next, Response } from "restify";
+import { RequestWithContext } from "../types/restify";
 
-export async function authentication(req, res, next) {
+export async function authentication(req: RequestWithContext, res: Response, next: Next) {
   const token = req.headers?.authorization?.split(" ")[1];
 
   if (!token) {
@@ -20,5 +22,5 @@ export async function authentication(req, res, next) {
     req.set("user", decodeValue);
     return next();
   }
-   next(new errors.UnauthorizedError("Unauthorized"));
+  next(new errors.UnauthorizedError("Unauthorized"));
 }

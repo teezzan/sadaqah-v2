@@ -13,9 +13,4 @@ logger.info("loading routes");
 
 Routes(server);
 
-server.get(
-  "/", // don't forget the `/*`
-  restify.plugins.serveStaticFiles("../public")
-);
-
 export default server;
