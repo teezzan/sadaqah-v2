@@ -17,15 +17,17 @@ jobs:
           file_name: .env
           fail_on_empty: false
       - run: ls -a
-  build:
-    runs-on: ubuntu-latest
-    needs: create-envfile
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-    - run: ls -a
-    - run: npm ci
-    - run: make test
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - run: ls -a
+      - run: npm ci
+      - run: make test
+
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: create-envfile
+  #   steps:
+    
