@@ -1,8 +1,8 @@
-import { Server } from 'restify'
-import pingRoute from './pingRoute'
+import { Server } from "restify";
+import pingRouter from "./pingRoute";
 
-const Route = (server: Server) => {
-    pingRoute(server)
-}
+const Routes = (server: Server) => {
+  pingRouter.applyRoutes(server, "/api");
+};
 
-export default Route
+export default Routes;

@@ -1,16 +1,18 @@
-import 'reflect-metadata';
-import * as logger from '../utils/logger'
-import * as restify from 'restify';
+import "reflect-metadata";
+import * as logger from "../utils/logger";
+import * as restify from "restify";
 
-import Route from '../routes'
+import Routes from "../routes";
 
-const server  = restify.createServer()
+const server = restify.createServer();
 
-server.pre(restify.pre.sanitizePath())
-server.use(restify.plugins.bodyParser())
+server.pre(restify.pre.sanitizePath());
+server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.queryParser());
+server.pre(restify.plugins.pre.context());
 
-logger.info('loading routes')
+logger.info("loading routes");
 
-Route(server)
+Routes(server);
 
-export default server
+export default server;

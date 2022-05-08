@@ -1,12 +1,15 @@
-import * as logger from '../utils/logger'
+import * as logger from "../utils/logger";
 
-const pingAndGetOKResponse = async(req, res, next) => {
-    logger.info('request received')
+export async function authorizedPingAndGetOKResponse(req, res, next) {
+  res.send({ ping: "Authorized OK" });
 
-    res.send({ ping: 'OK' })
-
-    logger.info('response sent')
-    return next()
+  logger.info("response sent");
+  return next();
 }
 
-export default {pingAndGetOKResponse}
+export async function unAuthorizedPingAndGetOKResponse(req, res, next) {
+    res.send({ ping: "Non-Authorized OK" });
+  
+    logger.info("response sent");
+    return next();
+  }
