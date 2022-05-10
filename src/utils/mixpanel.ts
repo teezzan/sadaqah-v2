@@ -5,11 +5,16 @@ import logger = require("./logger");
 
 const mixpanel = Mixpanel.init(config.mixpanel.projectToken);
 
-export async function trackEvent(
+export async function trackUserEvent(
   eventName: string,
   userId: number,
   properties?: { [keys: string]: any }
 ): Promise<void> {
+  if (!config.mixpanel.enableFlag) {
+    logger.debug(`Logging to MixPanel is Disabled.`);
+    return;
+  }
+
   logger.debug(`Logging ${eventName} to MixPanel.`);
   if (!Object.values(EventTypes).includes(eventName as EventTypes)) {
     logger.error(`${eventName} is not an allowed event Type.`);
@@ -31,6 +36,10 @@ export async function setUserProperties(
   userId: number,
   properties?: { [keys: string]: any }
 ): Promise<void> {
+  if (!config.mixpanel.enableFlag) {
+    logger.debug(`Logging to MixPanel is Disabled.`);
+    return;
+  }
   logger.debug(`Updating User ${userId} on MixPanel.`);
 
   const { name, createdAt, ...cleanProperties } = properties;
@@ -54,6 +63,10 @@ export async function incrementUserProperties(
   userId: number,
   properties?: { [keys: string]: number }
 ): Promise<void> {
+  if (!config.mixpanel.enableFlag) {
+    logger.debug(`Logging to MixPanel is Disabled.`);
+    return;
+  }
   logger.debug(`Incrememnting User ${userId} properties on MixPanel.`);
   try {
     mixpanel.people.increment(`${userId}`, properties);
@@ -63,10 +76,40 @@ export async function incrementUserProperties(
   }
 }
 
+export async function trackGroupEvent(
+  eventName: string,
+  groupId: number,
+  properties?: { [keys: string]: any }
+): Promise<void> {
+  if (!config.mixpanel.enableFlag) {
+    logger.debug(`Logging to MixPanel is Disabled.`);
+    return;
+  }
+  logger.debug(`Logging ${eventName} to MixPanel.`);
+  if (!Object.values(EventTypes).includes(eventName as EventTypes)) {
+    logger.error(`${eventName} is not an allowed event Type.`);
+    return;
+  }
+
+  try {
+    mixpanel.track(eventName, {
+      distinct_id: `G-${groupId}`,
+      ...properties,
+    });
+  } catch (err) {
+    logger.error(`Unable to trigger event ${eventName}`);
+    logger.error(err);
+  }
+}
+
 export async function setGroupProperties(
   groupId: number,
   properties?: { [keys: string]: any }
 ) {
+  if (!config.mixpanel.enableFlag) {
+    logger.debug(`Logging to MixPanel is Disabled.`);
+    return;
+  }
   logger.debug(`Updating Group ${groupId} on MixPanel.`);
   const { createdAt, ...cleanProperties } = properties;
 
@@ -84,6 +127,10 @@ export async function incrementGroupProperties(
   groupId: number,
   properties?: { [keys: string]: number }
 ) {
+  if (!config.mixpanel.enableFlag) {
+    logger.debug(`Logging to MixPanel is Disabled.`);
+    return;
+  }
   logger.debug(`Incrememnting Group ${groupId} properties on MixPanel.`);
   try {
     mixpanel.people.increment(`G-${groupId}`, properties);
