@@ -1,5 +1,6 @@
 import * as winston from 'winston'
-import config = require('../config');
+import config from "../config";
+
 
 const logger: winston.Logger = winston.createLogger({
     level: 'info',

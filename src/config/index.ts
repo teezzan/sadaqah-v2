@@ -1,6 +1,6 @@
 const API_ROOT = "/api";
 
-export = {
+const config = {
   appName: "sadaqah",
   databaseSettings: {
     databaseName: process.env.DATABASE_NAME || "dbname",
@@ -18,4 +18,10 @@ export = {
       "ascii"
     )
   ),
+  mixpanel: {
+    projectToken: process.env.MIXPANEL_PROJECT_TOKEN,
+    enableFlag: process.env.NODE_ENV !== "test",
+  },
 };
+
+export default config;

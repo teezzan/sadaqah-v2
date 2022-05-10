@@ -1,5 +1,5 @@
 import "dotenv/config";
-import config = require("./config");
+import config from "./config";
 import server from "./server";
 import * as logger from "./utils/logger";
 
