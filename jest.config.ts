@@ -74,12 +74,7 @@ export default {
   moduleDirectories: ["node_modules", "src"],
 
   // An array of file extensions your modules use
-  moduleFileExtensions: [
-    "js",
-    "ts",
-    "json",
-    "node"
-  ],
+  moduleFileExtensions: ["js", "ts", "json", "node"],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
@@ -187,6 +182,13 @@ export default {
   // Whether to use watchman for file crawling
   // watchman: true,
   transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest'  }
-
+    "^.+\\.(ts|tsx)?$": "ts-jest",
+  },
 };
+
+process.env = Object.assign(process.env, {
+  NODE_ENV: "test",
+  FIREBASE_SERVICE_ACCOUNT_BASE64: "",
+  PAYSTACK_BASEURL: "https://api.paystack.co",
+  PAYSTACK_SECRET_KEY: "",
+});
