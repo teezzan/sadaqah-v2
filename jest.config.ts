@@ -190,5 +190,5 @@ process.env = Object.assign(process.env, {
   NODE_ENV: "test",
   FIREBASE_SERVICE_ACCOUNT_BASE64: "",
   PAYSTACK_BASEURL: "https://api.paystack.co",
-  PAYSTACK_SECRET_KEY: "",
+  PAYSTACK_SECRET_KEY: "sk_test_db7fb56d218afb3bb9d6e5cc51e8b685b899c4de",
 });
