@@ -28,7 +28,7 @@ export class OneTimePayment extends PaystackAxios {
     //https://paystack.com/docs/payments/verify-payments/
     r: types.TransactionStatusRequest
   ): Promise<types.TransactionStatusResponse> {
-    const { data } = await this.http().get(`transaction/verify/${r.reference}`);
+    const { data } = await this.http().get(`/transaction/verify/${r.reference}`);
 
     console.info(JSON.stringify(data, null, 2));
 
