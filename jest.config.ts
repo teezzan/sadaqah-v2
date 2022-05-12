@@ -121,7 +121,7 @@ export default {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  // setupFiles: [],
+  setupFiles: ["dotenv/config"],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
@@ -185,10 +185,3 @@ export default {
     "^.+\\.(ts|tsx)?$": "ts-jest",
   },
 };
-
-process.env = Object.assign(process.env, {
-  NODE_ENV: "test",
-  FIREBASE_SERVICE_ACCOUNT_BASE64: "",
-  PAYSTACK_BASEURL: "https://api.paystack.co",
-  PAYSTACK_SECRET_KEY: "sk_test_db7fb56d218afb3bb9d6e5cc51e8b685b899c4de",
-});
