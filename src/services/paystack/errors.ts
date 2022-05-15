@@ -20,8 +20,15 @@ export class PaystackInvalidTransactionStatusError extends Error {
 }
 
 export class PaystackApiError extends Error {
-    constructor(message?: string) {
-      super(message);
-      this.name = "PaystackApiError";
-    }
+  constructor(message?: string) {
+    super(message);
+    this.name = "PaystackApiError";
   }
+}
+
+export class PaystackInvalidBalanceError extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = "PaystackInvalidBalanceError";
+  }
+}

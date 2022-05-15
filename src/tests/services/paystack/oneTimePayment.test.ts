@@ -3,7 +3,7 @@ import * as types from "../../../types/services/paystack";
 import { OneTimePayment } from "../../../services/paystack/oneTimePayment";
 
 const initializeTransactionRequest: types.InitializeTransactionRequest = {
-  amount: 50,
+  amount: 5000000, //in naira
   email: "test@gmail.com",
   currency: types.SUPPORTED_CURRENCY.NGN,
   reference: uuidv4(),
@@ -12,13 +12,17 @@ const initializeTransactionRequest: types.InitializeTransactionRequest = {
 const verifyTransactionRequest: types.TransactionStatusRequest = {
   reference: "dddf20e0-52ec-407e-b14f-5df45fc05e76",
 };
+const islamicBankCodes = ["301", "302", "303"];
+const bankCode =
+  islamicBankCodes[Math.floor(Math.random() * islamicBankCodes.length)];
 
-describe("test paystack", () => {
+describe("test paystack payments", () => {
   it("should initialize transaction", async () => {
     const promise = new OneTimePayment(
       types.SUPPORTED_CURRENCY.NGN
     ).initializeTransaction(initializeTransactionRequest);
     const result = await promise;
+    // console.info(result.authorization_url);
     expect(result).toMatchObject({
       authorization_url: expect.any(String),
       access_code: expect.any(String),
@@ -29,7 +33,7 @@ describe("test paystack", () => {
   it("should check transaction status", async () => {
     const promise = new OneTimePayment(
       types.SUPPORTED_CURRENCY.NGN
-    ).verifyTransaction(verifyTransactionRequest);
+    ).verifyTransactionStatus(verifyTransactionRequest);
     const result = await promise;
     expect(["success", "pending", "failed"]).toContain(result.status);
   }, 60_000);
