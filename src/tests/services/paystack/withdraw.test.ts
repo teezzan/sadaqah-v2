@@ -56,7 +56,7 @@ describe("test paystack transfers", () => {
     });
     const result = await promise;
     expect(result).toMatchObject({
-        balance: expect.any(Number),
+      balance: expect.any(Number),
     });
   }, 60_000);
 
