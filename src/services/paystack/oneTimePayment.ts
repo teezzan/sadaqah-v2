@@ -6,7 +6,8 @@ import * as errors from "./errors";
 
 export class OneTimePayment extends PaystackAxios {
   constructor(private currency: types.SUPPORTED_CURRENCY) {
-    super(currency);
+    if (!currency) throw new errors.PaystackCurrencyRequiredError();
+    super();
   }
   async initializeTransaction(
     r: types.InitializeTransactionRequest
@@ -18,20 +19,14 @@ export class OneTimePayment extends PaystackAxios {
       amount: `${r.amount}00`, //in kobo
       channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
     });
-
-    console.info(JSON.stringify(data, null, 2));
-
     return data?.data;
   }
 
-  async verifyTransaction(
+  async verifyTransactionStatus(
     //https://paystack.com/docs/payments/verify-payments/
     r: types.TransactionStatusRequest
   ): Promise<types.TransactionStatusResponse> {
     const { data } = await this.http().get(`/transaction/verify/${r.reference}`);
-
-    console.info(JSON.stringify(data, null, 2));
-
     const status = data?.data?.status;
     if (!data.status) {
       throw new errors.PaystackApiError(`${data.message}`);

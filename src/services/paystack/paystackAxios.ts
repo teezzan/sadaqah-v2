@@ -1,11 +1,7 @@
 import axios, { AxiosInstance } from "axios";
-import { SUPPORTED_CURRENCY } from "../../types/services/paystack";
-import { PaystackCurrencyRequiredError } from "./errors";
+
 
 export class PaystackAxios {
-  constructor(private Currency: SUPPORTED_CURRENCY) {
-    if (!Currency) throw new PaystackCurrencyRequiredError();
-  }
 
   protected http(): AxiosInstance {
     const psAxios = axios.create({
@@ -18,7 +14,6 @@ export class PaystackAxios {
 
     psAxios.interceptors.request.use(
       (request) => {
-        console.info("Starting Request:", JSON.stringify(request, null, 2));
         return request;
       },
       (error) => {

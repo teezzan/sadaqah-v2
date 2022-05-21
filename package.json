@@ -45,6 +45,7 @@
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "jest": "^28.1.0",
+    "jest-mock-axios": "^4.6.1",
     "ts-jest": "^28.0.1"
   }
 }
