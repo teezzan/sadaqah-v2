@@ -1,10 +1,10 @@
-import { EventTypes } from "../types/events";
-import * as logger from "../utils/logger";
+import { EventTypes } from "../../types/events";
+import * as logger from "../../utils/logger";
 import {
   incrementUserProperties,
   setUserProperties,
   trackUserEvent,
-} from "../utils/mixpanel";
+} from "../../utils/mixpanel";
 
 export async function authorizedPingAndGetOKResponse(req, res, next) {
   res.send({ ping: "Authorized OK" });

@@ -1,9 +1,9 @@
-import admin = require("../utils/firebase");
+import admin = require("../../utils/firebase");
 import * as errors from "restify-errors";
 import { Next, Response } from "restify";
-import { RequestWithContext } from "../types/restify";
-import { ErrorTypes } from "../types/errors";
-import testUserStub from "../tests/helpers/stubs/testUserStub";
+import { RequestWithContext } from "../../types/restify";
+import { ErrorTypes } from "../../types/errors";
+import testUserStub from "../../tests/helpers/stubs/testUserStub";
 
 export async function authentication(
   req: RequestWithContext,

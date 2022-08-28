@@ -1,5 +1,5 @@
 import mockAxios from "../../__mocks__/axios";
-import { list_banks } from "../../../services/paystack/utils";
+import { list_banks } from "../../../controllers/paystack/utils";
 import { COUNTRY, SUPPORTED_CURRENCY } from "../../../types/services/paystack";
 
 afterEach(() => {

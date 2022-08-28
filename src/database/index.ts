@@ -1,5 +1,5 @@
 import {Connection, createConnection} from 'typeorm';
-import { Customer } from '../models/customer';
+import { Customer } from './models/customer';
 
 export interface DatabaseConfiguration {
     type: 'postgres' | 'mysql' | 'mssql';

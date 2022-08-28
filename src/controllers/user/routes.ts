@@ -3,8 +3,8 @@ import { Router } from "restify-router";
 import {
   authorizedPingAndGetOKResponse,
   unAuthorizedPingAndGetOKResponse,
-} from "../controllers/PingController";
-import { authentication } from "../middleware/Auth";
+} from "./service";
+import { authentication } from "./authMiddleware";
 
 var PingRouter = new Router();
 
