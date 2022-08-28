@@ -1,7 +1,15 @@
-interface Service {
-  ping(auth: boolean): GenericObject<string>;
-}
+import { Connection } from "typeorm";
+import winston = require("winston");
+import { DefaultService } from "../service";
 
-type GenericObject<m = any> = {
-  [key: string]: m;
-};
+export class UserService extends DefaultService implements Service {
+  dbConn: Connection;
+  constructor(logger: winston.Logger, dbConn: Connection) {
+    super(logger);
+    this.dbConn = dbConn;
+  }
+
+  ping(auth: boolean): GenericObject<string> {
+    return { ping: auth ? "Authorized OK" : "Non-Authorized OK" };
+  }
+}
