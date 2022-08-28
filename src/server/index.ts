@@ -2,7 +2,11 @@ import "reflect-metadata";
 import * as logger from "../utils/logger";
 import * as restify from "restify";
 
-import Routes from "../routes";
+import { Route } from "../routes";
+import { UserHTTPHandler } from "../controllers/user/routes";
+import { UserService } from "../controllers/user/service";
+import { DatabaseConfiguration, DatabaseProvider } from "../database";
+import config from "../config";
 
 const server = restify.createServer();
 
@@ -11,8 +15,13 @@ server.use(restify.plugins.bodyParser());
 server.use(restify.plugins.queryParser());
 server.pre(restify.plugins.pre.context());
 
-logger.info("loading routes");
+// initializations
+DatabaseProvider.configure(config.databaseSettings as DatabaseConfiguration);
+const dbConn = DatabaseProvider.getConnection();
 
-Routes(server);
+const userService = new UserService(logger, dbConn);
+const userHTTPHandler = new UserHTTPHandler(logger, userService);
+const routes = new Route(logger, userHTTPHandler);
+routes.SetupRouter(server);
 
 export default server;

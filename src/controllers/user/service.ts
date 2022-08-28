@@ -1,10 +1,11 @@
-import { Connection } from "typeorm";
+import { Sequelize } from "sequelize-typescript";
+
 import winston = require("winston");
 import { DefaultService } from "../service";
 
 export class UserService extends DefaultService implements Service {
-  dbConn: Connection;
-  constructor(logger: winston.Logger, dbConn: Connection) {
+  dbConn: Sequelize;
+  constructor(logger: winston.Logger, dbConn: Sequelize) {
     super(logger);
     this.dbConn = dbConn;
   }

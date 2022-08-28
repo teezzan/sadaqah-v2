@@ -3,7 +3,8 @@ const API_ROOT = "/api";
 const config = {
   appName: "sadaqah",
   databaseSettings: {
-    databaseName: process.env.DATABASE_NAME || "dbname",
+    type: "mysql",
+    database: process.env.DATABASE_NAME || "dbname",
     username: process.env.DATABASE_USERNAME || "root",
     password: process.env.DATABASE_PASSWORD || "password",
     host: process.env.DATABASE_HOST || "localhost",
