@@ -1,8 +1,8 @@
 import mockAxios from "../../__mocks__/axios";
 import { v4 as uuidv4 } from "uuid";
 import * as types from "../../../types/services/paystack";
-import { PaystackInvalidTransactionStatusError } from "../../../services/paystack/errors";
-import { Withdraw } from "../../../services/paystack/withdraw";
+import { PaystackInvalidTransactionStatusError } from "../../../controllers/paystack/errors";
+import { Withdraw } from "../../../controllers/paystack/withdraw";
 
 const verifyAccountNumberRequest: types.VerifyAccountNumberRequest = {
   account_number: "0221450751",

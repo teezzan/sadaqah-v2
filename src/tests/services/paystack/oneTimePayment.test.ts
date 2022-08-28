@@ -1,7 +1,7 @@
 import mockAxios from "../../__mocks__/axios";
 import { v4 as uuidv4 } from "uuid";
 import * as types from "../../../types/services/paystack";
-import { OneTimePayment } from "../../../services/paystack/oneTimePayment";
+import { OneTimePayment } from "../../../controllers/paystack/oneTimePayment";
 
 const initializeTransactionRequest: types.InitializeTransactionRequest = {
   amount: 5000000, //in naira

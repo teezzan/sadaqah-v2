@@ -1,8 +1,19 @@
 import { Server } from "restify";
-import pingRouter from "./pingRoute";
+import { Logger } from "winston";
+import { UserHTTPHandler } from "../controllers/user/routes";
+import { RouterController } from "./routeSchema";
 
-const Routes = (server: Server) => {
-  pingRouter.applyRoutes(server, "/api");
-};
+export class Route implements RouterController {
+  logger: Logger;
 
-export default Routes;
+  userHTTPHandler: UserHTTPHandler;
+
+  constructor(logger: Logger, userHTTPHandler: UserHTTPHandler) {
+    this.logger = logger;
+    this.userHTTPHandler = userHTTPHandler;
+  }
+
+  SetupRouter(server: Server) {
+    this.userHTTPHandler.SetupRoutes().applyRoutes(server, "/api");
+  }
+}

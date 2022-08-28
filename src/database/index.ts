@@ -1,45 +1,45 @@
-import {Connection, createConnection} from 'typeorm';
-import { Customer } from '../models/customer';
+import { Sequelize } from "sequelize-typescript";
 
 export interface DatabaseConfiguration {
-    type: 'postgres' | 'mysql' | 'mssql';
-    host: string;
-    port: number;
-    username: string;
-    password: string;
-    database: string;
-    ssl?: boolean;
+  type: "postgres" | "mysql" | "mssql";
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+  ssl?: boolean;
 }
 
 export class DatabaseProvider {
-    private static connection: Connection;
-    private static configuration: DatabaseConfiguration;
+  private static connection: Sequelize;
+  private static configuration: DatabaseConfiguration;
 
-    public static configure(databaseConfiguration: DatabaseConfiguration): void {
-        DatabaseProvider.configuration = databaseConfiguration;
+  public static configure(databaseConfiguration: DatabaseConfiguration): void {
+    DatabaseProvider.configuration = databaseConfiguration;
+  }
+
+  public static getConnection(): Sequelize {
+    if (DatabaseProvider.connection) {
+      return DatabaseProvider.connection;
     }
 
-    public static async getConnection(): Promise<Connection> {
-        if (DatabaseProvider.connection) {
-            return DatabaseProvider.connection;
-        }
-
-        if (!DatabaseProvider.configuration) {
-            throw new Error('DatabaseProvider is not configured yet.');
-        }
-
-        const { type, host, port, username, password, database, ssl } = DatabaseProvider.configuration;
-        DatabaseProvider.connection = await createConnection({
-            type, host, port, username, password, database,
-            extra: {
-                ssl
-            },
-            entities: [
-                Customer
-            ],
-            autoSchemaSync: true
-        } as any); 
-
-        return DatabaseProvider.connection;
+    if (!DatabaseProvider.configuration) {
+      throw new Error("DatabaseProvider is not configured yet.");
     }
+
+    const { type, host, port, username, password, database, ssl } =
+      DatabaseProvider.configuration;
+
+    DatabaseProvider.connection = new Sequelize({
+      database,
+      dialect: type,
+      host,
+      port,
+      username,
+      password,
+      ssl,
+    });
+
+    return DatabaseProvider.connection;
+  }
 }
