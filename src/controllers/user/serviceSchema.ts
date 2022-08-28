@@ -1,7 +1,6 @@
-interface Service {
+import { GenericObject } from "./data/structures";
+
+export interface Service {
   ping(auth: boolean): GenericObject<string>;
 }
 
-type GenericObject<m = any> = {
-  [key: string]: m;
-};

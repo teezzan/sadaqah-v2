@@ -72,16 +72,16 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
     }
   }
 
-  protected async authorizedPingAndGetOKResponse(req, res, next) {
+  authorizedPingAndGetOKResponse = (req, res, next) => {
     const pingResult = this.userService.ping(true);
     res.send(pingResult);
     return next();
-  }
+  };
 
-  protected async unAuthorizedPingAndGetOKResponse(req, res, next) {
+  unAuthorizedPingAndGetOKResponse = (req, res, next) => {
     const pingResult = this.userService.ping(false);
     res.send(pingResult);
     this.logger.info("response sent");
     return next();
-  }
+  };
 }
