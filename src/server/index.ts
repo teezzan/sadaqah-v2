@@ -19,9 +19,19 @@ server.pre(restify.plugins.pre.context());
 DatabaseProvider.configure(config.databaseSettings as DatabaseConfiguration);
 const dbConn = DatabaseProvider.getConnection();
 
+// test remove after implementing migrations
+(async () => {
+  await dbConn.sync({ alter: true });
+})();
+
 const userService = new UserService(logger, dbConn);
 const userHTTPHandler = new UserHTTPHandler(logger, userService);
 const routes = new Route(logger, userHTTPHandler);
 routes.SetupRouter(server);
+
+server.on("InternalServer", function (req, res, err, callback) {
+  res.status(500).send({ ...err.body, message: "Internal Server Error" });
+  return callback();
+});
 
 export default server;

@@ -9,6 +9,7 @@ import { Next, Response } from "restify";
 import testUserStub from "../../tests/helpers/stubs/testUserStub";
 import { ErrorTypes } from "../../types/errors";
 import { RequestWithContext } from "../../types/restify";
+import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 
 export class UserHTTPHandler extends DefaultHTTPHandler {
   userService: UserService;
@@ -23,6 +24,7 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
 
     UserRouter.get("/freeping", this.unAuthorizedPingAndGetOKResponse);
 
+    UserRouter.get("/login", this.AuthMiddleware, this.login);
     UserRouter.get(
       "/ping",
       this.AuthMiddleware,
@@ -36,7 +38,7 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
     res: Response,
     next: Next
   ) {
-    let decodeValue;
+    let decodeValue: DecodedIdToken;
 
     const token = req.headers?.authorization?.split(" ")[1];
 
@@ -85,5 +87,14 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
     res.send(pingResult);
     this.logger.info("response sent");
     return next();
+  };
+
+  login = (req, res, next) => {
+    try {
+      const decodedIDToken = req.get("user") as DecodedIdToken;
+      this.userService.createOrFetchUser(decodedIDToken);
+    } catch (error) {
+      next(new errors.InternalServerError(error));
+    }
   };
 }
