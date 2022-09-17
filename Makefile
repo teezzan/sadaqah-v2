@@ -35,3 +35,8 @@ serve: ## Start local server
 build-image: ## Build docker image
 	@echo '==> Building sadaqah:latest image'
 	docker build -t sadaqah:latest .
+
+.PHONY: firebase-client
+firebase-client: ## StartFirebase Client
+	@echo '==> Starting Firebase Client'
+	serve -s build

@@ -19,14 +19,16 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
   }
 
   public SetupRoutes(): Router {
-    const PingRouter = new Router();
-    PingRouter.get(
+    const UserRouter = new Router();
+
+    UserRouter.get("/freeping", this.unAuthorizedPingAndGetOKResponse);
+
+    UserRouter.get(
       "/ping",
       this.AuthMiddleware,
       this.authorizedPingAndGetOKResponse
     );
-    PingRouter.get("/freeping", this.unAuthorizedPingAndGetOKResponse);
-    return PingRouter;
+    return UserRouter;
   }
 
   public async AuthMiddleware(
