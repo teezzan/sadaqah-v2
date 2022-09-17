@@ -14,7 +14,7 @@ describe("Check Server Availability", () => {
   });
 
   test("Should Require Unauthorised Access to Work", async () => {
-    const response = await request(server).get("/api/freeping");
+    const response = await request(server).get("/api/user/freeping");
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject({
       ping: "Non-Authorized OK",
@@ -23,7 +23,7 @@ describe("Check Server Availability", () => {
 
   test("Should Require Authorised Access to Work", async () => {
     const response = await request(server)
-      .get("/api/ping")
+      .get("/api/user/ping")
       .set({
         Authorization: `Bearer ${authToken}`,
       });
