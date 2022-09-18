@@ -41,7 +41,7 @@ jobs:
           cache: 'npm'
       - uses: mirromutth/mysql-action@v1.1
         with:
-          host port: 3800 # Optional, default value is 3306. The port of host
+          host port: 3800
           mysql version: '5.7'
           mysql database: 'sadaqah'
           mysql root password: ${{ secrets.DATABASE_PASSWORD }}
