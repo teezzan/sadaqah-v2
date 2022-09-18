@@ -7,17 +7,17 @@ on:
 jobs:
   test:
       runs-on: ubuntu-latest
-      services:
-        mysql:
-          image: mysql:5.7
-          env:
-            MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
-            MYSQL_USER: ${{ secrets.DB_USER }}
-            MYSQL_PASSWORD: ${{ secrets.DB_PASS }}
-            MYSQL_DATABASE: ${{ secrets.DB_NAME }}
-          ports:
-            - 3306:3306
-    
+      # services:
+      #   mysql:
+      #     image: mysql:5.7
+      #     env:
+      #       MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
+      #       MYSQL_USER: ${{ secrets.DB_USER }}
+      #       MYSQL_PASSWORD: ${{ secrets.DB_PASS }}
+      #       MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+      #     ports:
+      #       - 3307:3306
+      
       steps:
       - uses: actions/checkout@v3
       - uses: SpicyPizza/create-envfile@v1.3
@@ -38,9 +38,12 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
-      - name: Verify MySQL connection from container 
-        run: |
-          sudo apt-get install -y mysql-client
-          mysql --host mysql -uroot -p${{ secrets.DB_PASS }} -e "SHOW DATABASES"
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3800 # Optional, default value is 3306. The port of host
+          container port: 3307 # Optional, default value is 3306. The port of container
+          mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
+          mysql database: ${{ secrets.DB_NAME }} # Optional, default value is "test". The specified database which will be create
+          mysql root password: ${{ secrets.DB_PASS }} # Required if "mysql user" is empty, default is empty. The root superuser password
       - run: npm ci
       - run: make test
