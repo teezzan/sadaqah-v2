@@ -23,6 +23,8 @@ jobs:
         with:
           mysql database: ${{ secrets.DB_NAME }}' 
           mysql root password: ${{ secrets.DB_PASS }}
+          mysql user: ${{ secrets.DB_USER }}
+          mysql password: ${{ secrets.DB_PASS }}
       - uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_FIREBASE_SERVICE_ACCOUNT_BASE64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE64 }}
