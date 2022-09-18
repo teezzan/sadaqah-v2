@@ -9,6 +9,9 @@ import { Next, Response } from "restify";
 import testUserStub from "../../tests/helpers/stubs/testUserStub";
 import { ErrorTypes } from "../../types/errors";
 import { RequestWithContext } from "../../types/restify";
+import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
+import { APIUser } from "./data/types";
+import { User } from "../../database/models/user";
 
 export class UserHTTPHandler extends DefaultHTTPHandler {
   userService: UserService;
@@ -20,14 +23,7 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
 
   public SetupRoutes(): Router {
     const UserRouter = new Router();
-
-    UserRouter.get("/freeping", this.unAuthorizedPingAndGetOKResponse);
-
-    UserRouter.get(
-      "/ping",
-      this.AuthMiddleware,
-      this.authorizedPingAndGetOKResponse
-    );
+    UserRouter.get("/login", this.AuthMiddleware, this.login);
     return UserRouter;
   }
 
@@ -36,7 +32,7 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
     res: Response,
     next: Next
   ) {
-    let decodeValue;
+    let decodeValue: DecodedIdToken;
 
     const token = req.headers?.authorization?.split(" ")[1];
 
@@ -74,16 +70,26 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
     }
   }
 
-  authorizedPingAndGetOKResponse = (req, res, next) => {
-    const pingResult = this.userService.ping(true);
-    res.send(pingResult);
-    return next();
+  login = async (req: RequestWithContext, res: Response, next: Next) => {
+    try {
+      const decodedIDToken = req.get("user") as DecodedIdToken;
+      const user = await this.userService.createOrFetchUser(decodedIDToken);
+      
+      res.status(200);
+      res.send(this.convertToAPIUser(user));
+      return next();
+    } catch (error) {
+      next(new errors.InternalServerError(error));
+    }
   };
 
-  unAuthorizedPingAndGetOKResponse = (req, res, next) => {
-    const pingResult = this.userService.ping(false);
-    res.send(pingResult);
-    this.logger.info("response sent");
-    return next();
+  convertToAPIUser = (user: User): APIUser => {
+    const userDetail: APIUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    };
+    return userDetail;
   };
 }
