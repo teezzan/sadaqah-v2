@@ -29,4 +29,9 @@ describe("User Controller methods", () => {
     );
     expect(response.body.id).not.toBeUndefined();
   });
+
+  test("Should not return user details due to lack of auth", async () => {
+    const response = await request(server).get("/api/user/login");
+    expect(response.status).toBe(401);
+  });
 });
