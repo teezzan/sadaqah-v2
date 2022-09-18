@@ -41,10 +41,10 @@ jobs:
       - uses: mirromutth/mysql-action@v1.1
         with:
           host port: 3800 # Optional, default value is 3306. The port of host
-          mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
+          mysql version: '5.7'
           mysql database: ${{ secrets.DB_NAME }} # Optional, default value is "test". The specified database which will be create
           mysql root password: ${{ secrets.DB_PASS }} # Required if "mysql user" is empty, default is empty. The root superuser password
-          mysql user: 'developer' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-          mysql password: "hhdd" 
+          mysql user: ${{ secrets.DB_USER }} # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+          mysql password: ${{ secrets.DB_PASS }}
       - run: npm ci
       - run: make test
