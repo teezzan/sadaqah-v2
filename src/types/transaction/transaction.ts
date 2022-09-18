@@ -2,6 +2,15 @@ export enum SUPPORTED_CURRENCY {
   NGN = "NGN",
 }
 
+export enum STATUS {
+  CREATED = "created",
+  PROCESSING = "processing",
+  PROCESSED = "processed",
+  PENDING = "pending",
+  FAILED = "failed",
+  COMPLETE = "complete",
+}
+
 export enum PROVIDER {
   PAYSTACK = "paystack",
 }
@@ -18,4 +27,9 @@ export interface TransactionRequest {
   type: TRANSACTION_TYPES;
   provider: PROVIDER; // e,g paystack
   currency: SUPPORTED_CURRENCY;
+}
+
+export interface TransactionResponse {
+  payment_link?: string;
+  status: STATUS;
 }

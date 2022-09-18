@@ -53,6 +53,13 @@ export class Transaction extends Model {
 
   @Column({
     type: DataType.TEXT,
+    field: "status",
+    allowNull: false,
+  })
+  status: string;
+
+  @Column({
+    type: DataType.TEXT,
     field: "currency",
     allowNull: false,
   })
