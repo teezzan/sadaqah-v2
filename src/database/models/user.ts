@@ -6,6 +6,7 @@ import {
   HasMany,
   CreatedAt,
   UpdatedAt,
+  Sequelize,
 } from "sequelize-typescript";
 
 const { QueryTypes } = require("sequelize");
@@ -18,6 +19,13 @@ const { QueryTypes } = require("sequelize");
   paranoid: true,
 })
 export class User extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
+  id: string;
+
   @Column({
     type: DataType.TEXT,
     field: "name",

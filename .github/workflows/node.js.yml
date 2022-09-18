@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-      runs-on: ubuntu-latest
+      runs-on: ubuntu-latest      
       steps:
       - uses: actions/checkout@v3
       - uses: SpicyPizza/create-envfile@v1.3
@@ -15,6 +15,12 @@ jobs:
           envkey_MIXPANEL_PROJECT_TOKEN: ${{ secrets.MIXPANEL_PROJECT_TOKEN }}
           envkey_PAYSTACK_BASEURL: ${{ secrets.PAYSTACK_BASEURL }}
           envkey_PAYSTACK_SECRET_KEY: ${{ secrets.PAYSTACK_SECRET_KEY }}
+          envkey_DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          envkey_DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          envkey_DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          envkey_DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+          envkey_DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+          envkey_NODE_ENV: ${{ secrets.NODE_ENV }}
           directory: ./
           file_name: .env
           fail_on_empty: false
@@ -22,5 +28,11 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3800
+          mysql version: '5.7'
+          mysql database: 'sadaqah'
+          mysql root password: ${{ secrets.DATABASE_PASSWORD }}
       - run: npm ci
       - run: make test

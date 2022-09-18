@@ -7,7 +7,6 @@ import {
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
-import { Transaction } from "./transaction";
 
 @Table({
   tableName: "groups",
@@ -22,7 +21,4 @@ export class Group extends Model {
     field: "name",
   })
   name: string;
-
-  @HasMany(() => Transaction, "user_id")
-  transactions: Transaction[];
 }

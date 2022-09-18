@@ -1,4 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
+import { Group } from "./models/group";
+import { User } from "./models/user";
 
 export interface DatabaseConfiguration {
   type: "postgres" | "mysql" | "mssql";
@@ -38,6 +40,8 @@ export class DatabaseProvider {
       username,
       password,
       ssl,
+      logging: false,
+      models: [Group, User],
     });
 
     return DatabaseProvider.connection;

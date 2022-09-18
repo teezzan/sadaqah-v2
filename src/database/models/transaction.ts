@@ -6,7 +6,7 @@ import {
   BelongsTo,
 } from "sequelize-typescript";
 import { User } from "./user";
-import { Group } from "./groups";
+import { Group } from "./group";
 
 @Table({
   tableName: "transaction",
@@ -16,7 +16,7 @@ import { Group } from "./groups";
 })
 
 export class Transaction extends Model {
-  
+
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,

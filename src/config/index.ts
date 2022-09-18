@@ -2,6 +2,7 @@ const API_ROOT = "/api";
 
 const config = {
   appName: "sadaqah",
+  isProd: process.env.NODE_ENV == "production",
   databaseSettings: {
     type: "mysql",
     database: process.env.DATABASE_NAME || "dbname",

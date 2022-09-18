@@ -20,8 +20,7 @@ export class Route implements RouterController {
     this.logger = logger;
     this.userHTTPHandler = userHTTPHandler;
     this.transactionHTTPHandler = transactionHTTPHandler;
-
-    this, (this.mainRouter = new Router());
+    this.mainRouter = new Router();
   }
 
   SetupRouter(server: Server) {
