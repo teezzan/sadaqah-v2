@@ -27,7 +27,7 @@ export class TransactionHTTPHandler extends DefaultHTTPHandler {
     const TransactionRouter = new Router();
     TransactionRouter.post(
       "/create",
-     this.userHttpHandler.AuthMiddleware,
+      this.userHttpHandler.AuthMiddleware,
       this.createTransaction
     );
     return TransactionRouter;
@@ -46,9 +46,11 @@ export class TransactionHTTPHandler extends DefaultHTTPHandler {
           )
         );
       }
+      console.log(req)
       const decodedIDToken = req.get("user") as DecodedIdToken;
       const result = await this.transactionService.createTransaction(
-        req.body as TransactionRequest, decodedIDToken
+        req.body as TransactionRequest,
+        decodedIDToken
       );
       res.status(200);
       res.send(result);
