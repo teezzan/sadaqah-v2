@@ -21,7 +21,7 @@ const dbConn = DatabaseProvider.getConnection();
 
 // test remove after implementing migrations
 (async () => {
-  await dbConn.sync({ force: true });
+  await dbConn.sync();
 })();
 
 const userService = new UserService(logger, dbConn);
