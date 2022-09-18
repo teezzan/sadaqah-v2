@@ -13,7 +13,7 @@ export class Route implements RouterController {
   constructor(logger: Logger, userHTTPHandler: UserHTTPHandler) {
     this.logger = logger;
     this.userHTTPHandler = userHTTPHandler;
-    this, (this.mainRouter = new Router());
+    this.mainRouter = new Router();
   }
 
   SetupRouter(server: Server) {
