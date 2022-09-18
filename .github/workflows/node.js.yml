@@ -7,24 +7,19 @@ on:
 jobs:
   test:
       runs-on: ubuntu-latest
-      # services:
-      #   mysql:
-      #     image: mysql:5.7
-      #     env:
-      #       MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
-      #       MYSQL_USER: ${{ secrets.DB_USER }}
-      #       MYSQL_DATABASE: ${{ secrets.DB_NAME }}
-      #     ports:
-      #       - 3306:3306
+      services:
+        mysql:
+          image: mysql:5.7
+          env:
+            MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
+            MYSQL_USER: ${{ secrets.DB_USER }}
+            MYSQL_PASSWORD: ${{ secrets.DB_PASS }}
+            MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+          ports:
+            - 3306:3306
     
       steps:
       - uses: actions/checkout@v3
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: ${{ secrets.DB_NAME }}' 
-          mysql root password: ${{ secrets.DB_PASS }}
-          mysql user: ${{ secrets.DB_USER }}
-          mysql password: ${{ secrets.DB_PASS }}
       - uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_FIREBASE_SERVICE_ACCOUNT_BASE64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE64 }}
