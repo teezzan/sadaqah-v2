@@ -40,8 +40,7 @@ jobs:
           cache: 'npm'
       - name: Verify MySQL connection from container 
         run: |
-          apt-get update
-          apt-get install -y mysql-client
+          sudo apt-get install -y mysql-client
           mysql --host mysql -uroot -p${{ secrets.DB_PASS }} -e "SHOW DATABASES"
       - run: npm ci
       - run: make test
