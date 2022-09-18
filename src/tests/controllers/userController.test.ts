@@ -2,11 +2,14 @@ import "dotenv/config";
 import server from "../../server";
 import * as request from "supertest";
 import { createTestUser } from "../helpers/createUserHelper";
+import { DatabaseProvider } from "../../database";
 
 let user;
 let authToken: string;
 describe("User Controller methods", () => {
   beforeAll(async () => {
+    const dbConn = DatabaseProvider.getConnection();
+    await dbConn.sync();
     [user, authToken] = await createTestUser({});
   });
   afterAll(() => {
