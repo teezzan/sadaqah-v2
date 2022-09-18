@@ -17,7 +17,7 @@ export class UserService extends DefaultService implements DefaultService {
   }
 
   async createOrFetchUser(idToken: DecodedIdToken): Promise<User> {
-    const [userDetail, _] = await User.findOrCreate({
+    const [user, created] = await User.findOrCreate({
       where: {
         externalUserId: idToken.uid,
       },
@@ -28,6 +28,15 @@ export class UserService extends DefaultService implements DefaultService {
         externalUserId: idToken.uid,
       },
     });
-    return userDetail;
+
+    if (!created) {
+      return await user.update({
+        name: idToken.name,
+        email: idToken.email,
+        avatar: idToken.picture,
+        externalUserId: idToken.uid,
+      });
+    }
+    return user;
   }
 }
