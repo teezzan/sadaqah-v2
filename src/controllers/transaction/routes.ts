@@ -16,13 +16,17 @@ export class TransactionHTTPHandler extends DefaultHTTPHandler {
   }
 
   public SetupRoutes(): Router {
-    const PingRouter = new Router();
-    PingRouter.get("/pingTransaction", this.authorizedPingAndGetOKResponse);
-    PingRouter.get(
-      "/freepingTransaction",
+    const TransactionRouter = new Router();
+    TransactionRouter.get(
+      "/ping",
+      // put AuthMiddleware here,
+      this.authorizedPingAndGetOKResponse
+    );
+    TransactionRouter.get(
+      "/freeping",
       this.unAuthorizedPingAndGetOKResponse
     );
-    return PingRouter;
+    return TransactionRouter;
   }
 
   authorizedPingAndGetOKResponse = (

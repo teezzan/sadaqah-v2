@@ -5,7 +5,7 @@ import {
   TRANSACTION_TYPES,
 } from "../../../types/transaction/transaction";
 
-const testTransaction: TransactionRequest = {
+export const testTransaction: TransactionRequest = {
   user_id: "rtytuytresdv",
   group_id: "rfgjhytdfsgf",
   amount: 500000,
@@ -13,5 +13,3 @@ const testTransaction: TransactionRequest = {
   type: TRANSACTION_TYPES.ONE_TIME_PAYMENT,
   currency: SUPPORTED_CURRENCY.NGN,
 };
-
-export default { testTransaction };

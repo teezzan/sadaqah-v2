@@ -4,7 +4,7 @@ import { DefaultService } from "../service";
 import { Service } from "./serviceSchema";
 import { GenericObject } from "./data/structures";
 import { TransactionRequest } from "../../types/transaction/transaction";
-import testTransactionStub from "../../tests/helpers/stubs/testTransactionStub";
+import { testTransaction } from "../../tests/helpers/stubs/testTransactionStub";
 
 export class TransactionService extends DefaultService implements Service {
   dbConn: Sequelize;
@@ -18,7 +18,7 @@ export class TransactionService extends DefaultService implements Service {
   createTransaction(
     body: TransactionRequest
   ): GenericObject<TransactionRequest> {
-    /*** @todo: check if authorized then make transaction ***/    
-    return testTransactionStub;
+    /*** @todo: check if authorized then make transaction ***/
+    return { transaction: testTransaction };
   }
 }
