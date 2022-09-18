@@ -8,8 +8,8 @@ jobs:
   test:
       runs-on: ubuntu-latest
       services:
-        postgres:
-          image: postgres:12.11
+        mysql:
+          image: mysql:5.7
           env:
             MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
             MYSQL_USER: ${{ secrets.DB_USER }}
