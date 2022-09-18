@@ -1,4 +1,4 @@
-const testUser = {
+export const testUser = {
   name: "Taiwo Hassan Yusuf",
   picture:
     "https://lh3.googleusercontent.com/a-/AOh14GiElBx6WH-wpDlisQycxVg8U8J_vxHRZ6MGxv-yOg=s96-c",

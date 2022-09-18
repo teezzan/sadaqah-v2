@@ -7,6 +7,16 @@ on:
 jobs:
   test:
       runs-on: ubuntu-latest
+      services:
+        postgres:
+          image: postgres:12.11
+          env:
+            MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
+            MYSQL_USER: ${{ secrets.DB_USER }}
+            MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+          ports:
+            - 5432:5432
+    
       steps:
       - uses: actions/checkout@v3
       - uses: SpicyPizza/create-envfile@v1.3
@@ -15,6 +25,11 @@ jobs:
           envkey_MIXPANEL_PROJECT_TOKEN: ${{ secrets.MIXPANEL_PROJECT_TOKEN }}
           envkey_PAYSTACK_BASEURL: ${{ secrets.PAYSTACK_BASEURL }}
           envkey_PAYSTACK_SECRET_KEY: ${{ secrets.PAYSTACK_SECRET_KEY }}
+          envkey_DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          envkey_DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          envkey_DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          envkey_DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+          envkey_DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
           directory: ./
           file_name: .env
           fail_on_empty: false
