@@ -3,7 +3,7 @@ import { Sequelize } from "sequelize-typescript";
 import winston = require("winston");
 import { User } from "../../database/models/user";
 import { DefaultService } from "../service";
-import { GenericObject } from "./data/structures";
+import { GenericObject } from "./data/types";
 
 export class UserService extends DefaultService implements DefaultService {
   dbConn: Sequelize;
@@ -24,7 +24,7 @@ export class UserService extends DefaultService implements DefaultService {
       defaults: {
         name: idToken.name,
         email: idToken.email,
-        avatar: idToken.phone_number,
+        avatar: idToken.picture,
         externalUserId: idToken.uid,
       },
     });

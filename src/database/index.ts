@@ -40,7 +40,7 @@ export class DatabaseProvider {
       username,
       password,
       ssl,
-      // logging: false,
+      logging: false,
       models: [Group, User],
     });
 

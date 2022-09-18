@@ -21,7 +21,7 @@ const dbConn = DatabaseProvider.getConnection();
 
 // test remove after implementing migrations
 (async () => {
-  await dbConn.sync({ alter: true });
+  await dbConn.sync({});
 })();
 
 const userService = new UserService(logger, dbConn);
@@ -30,7 +30,9 @@ const routes = new Route(logger, userHTTPHandler);
 routes.SetupRouter(server);
 
 server.on("InternalServer", function (req, res, err, callback) {
-  res.status(500).send({ ...err.body, message: "Internal Server Error" });
+  console.log(err);
+  res.status(500);
+  res.send({ ...err.body, message: "Internal Server Error" });
   return callback();
 });
 
