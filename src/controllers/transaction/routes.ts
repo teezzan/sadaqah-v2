@@ -19,7 +19,7 @@ export class TransactionHTTPHandler extends DefaultHTTPHandler {
     const TransactionRouter = new Router();
     TransactionRouter.get(
       "/ping",
-      // put AuthMiddleware here,
+      /*** @todo: put AuthMiddleware here ***/
       this.authorizedPingAndGetOKResponse
     );
     TransactionRouter.get(

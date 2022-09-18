@@ -6,7 +6,7 @@ import {
   BelongsTo,
 } from "sequelize-typescript";
 import { User } from "./user";
-import { Group } from "./group";
+import { Group } from "./groups";
 
 @Table({
   tableName: "transaction",

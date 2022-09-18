@@ -17,6 +17,7 @@ export enum PROVIDER {
 export enum TRANSACTION_TYPES {
   ONE_TIME_PAYMENT = "one_time_payment",
   SUBSCRIPTION = "subscription",
+  G_ADMIN_REMITTANCE = "remittance",
   REFUND = "refund",
 }
 

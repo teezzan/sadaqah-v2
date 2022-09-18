@@ -18,7 +18,11 @@ export class TransactionService extends DefaultService implements Service {
   createTransaction(
     body: TransactionRequest
   ): GenericObject<TransactionRequest> {
-    /*** @todo: check if authorized then make transaction ***/
+    /*** @todo: Get user email from db ***/
+    /*** @todo: confirm if user is actually in group ***/
+    /*** @todo: create transaction with provider ***/
+    /*** @todo: add to transaction db ***/
+    /*** @todo: return payment link if any plus status ***/
     return { transaction: testTransaction };
   }
 }
