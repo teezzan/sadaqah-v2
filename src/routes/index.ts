@@ -1,4 +1,5 @@
 import { Server } from "restify";
+import { Router } from "restify-router";
 import { Logger } from "winston";
 import { UserHTTPHandler } from "../controllers/user/routes";
 import { TransactionHTTPHandler } from "../controllers/transaction/routes";
@@ -9,6 +10,7 @@ export class Route implements RouterController {
 
   userHTTPHandler: UserHTTPHandler;
   transactionHTTPHandler: TransactionHTTPHandler;
+  mainRouter: Router;
 
   constructor(
     logger: Logger,
@@ -18,12 +20,16 @@ export class Route implements RouterController {
     this.logger = logger;
     this.userHTTPHandler = userHTTPHandler;
     this.transactionHTTPHandler = transactionHTTPHandler;
+
+    this, (this.mainRouter = new Router());
   }
 
   SetupRouter(server: Server) {
-    this.userHTTPHandler.SetupRoutes().applyRoutes(server, "/api");
-    this.transactionHTTPHandler
-      .SetupRoutes()
-      .applyRoutes(server, "/transaction_api");
+    this.mainRouter.add("/user", this.userHTTPHandler.SetupRoutes());
+    this.mainRouter.add(
+      "/transaction",
+      this.transactionHTTPHandler.SetupRoutes()
+    );
+    this.mainRouter.applyRoutes(server, "/api");
   }
 }

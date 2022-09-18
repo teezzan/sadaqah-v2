@@ -8,8 +8,6 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 
-import { Transaction } from "./transaction";
-
 const { QueryTypes } = require("sequelize");
 
 @Table({
@@ -43,7 +41,4 @@ export class User extends Model {
     field: "external_user_id",
   })
   externalUserId: string;
-
-  @HasMany(() => Transaction, "user_id")
-  transactions: Transaction[];
 }
