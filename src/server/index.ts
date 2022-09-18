@@ -15,7 +15,6 @@ server.use(restify.plugins.bodyParser());
 server.use(restify.plugins.queryParser());
 server.pre(restify.plugins.pre.context());
 
-// initializations
 DatabaseProvider.configure(config.databaseSettings as DatabaseConfiguration);
 const dbConn = DatabaseProvider.getConnection();
 
@@ -30,7 +29,7 @@ const routes = new Route(logger, userHTTPHandler);
 routes.SetupRouter(server);
 
 server.on("InternalServer", function (req, res, err, callback) {
-  console.log(err);
+  console.log(err); // setup global logger
   res.status(500);
   res.send({ ...err.body, message: "Internal Server Error" });
   return callback();
