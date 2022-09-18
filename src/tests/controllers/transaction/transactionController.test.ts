@@ -13,7 +13,6 @@ describe("Check Server Availability", () => {
     server.close();
   });
 
-  fix this shittt
   test("Should create a transaction", async () => {
     const response = await request(server)
       .post("/api/transaction/create")
@@ -21,8 +20,14 @@ describe("Check Server Availability", () => {
         Authorization: `Bearer ${authToken}`,
       });
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject({
-      ping: "Authorized OK",
+    expect(response).toMatchObject({
+      payment_link: expect.any(String),
+      status: expect.any(String),
     });
+  });
+
+  test("Fail transaction due to lack of auth", async () => {
+    const response = await request(server).post("/api/transaction/create");
+    expect(response.status).toBe(401);
   });
 });
