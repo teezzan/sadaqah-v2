@@ -5,7 +5,7 @@ import { createTestUser } from "../helpers/createUserHelper";
 
 let user;
 let authToken: string;
-describe("Check Server Availability", () => {
+describe("User Controller methods", () => {
   beforeAll(async () => {
     [user, authToken] = await createTestUser({});
   });
@@ -13,18 +13,20 @@ describe("Check Server Availability", () => {
     server.close();
   });
 
-  test("Should Require Authorised Access to Work", async () => {
+  test("Should Return user details", async () => {
     const response = await request(server)
       .get("/api/user/login")
       .set({
         Authorization: `Bearer ${authToken}`,
       });
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject({
-      name: user.name,
-      email: user.email,
-      avatar: user.picture,
-    });
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        name: user.name,
+        email: user.email,
+        avatar: user.picture,
+      })
+    );
     expect(response.body.id).not.toBeUndefined();
   });
 });
