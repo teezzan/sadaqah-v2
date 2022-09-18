@@ -16,6 +16,14 @@ import { Group } from "./groups";
 })
 
 export class Transaction extends Model {
+  
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
+  id: string;
+
   @Column({
     type: DataType.BIGINT,
     field: "user_id",

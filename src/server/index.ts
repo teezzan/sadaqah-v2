@@ -22,11 +22,12 @@ DatabaseProvider.configure(config.databaseSettings as DatabaseConfiguration);
 const dbConn = DatabaseProvider.getConnection();
 
 const userService = new UserService(logger, dbConn);
-const transactionService = new TransactionService(logger, dbConn);
 const userHTTPHandler = new UserHTTPHandler(logger, userService);
+const transactionService = new TransactionService(logger, dbConn, userService);
 const transactionHTTPHandler = new TransactionHTTPHandler(
   logger,
-  transactionService
+  transactionService,
+  userHTTPHandler
 );
 const routes = new Route(logger, userHTTPHandler, transactionHTTPHandler);
 routes.SetupRouter(server);

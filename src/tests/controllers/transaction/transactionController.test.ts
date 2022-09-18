@@ -13,17 +13,10 @@ describe("Check Server Availability", () => {
     server.close();
   });
 
-  test("Should Require Unauthorised Access to Work", async () => {
-    const response = await request(server).get("/api/transaction/freeping");
-    expect(response.status).toBe(200);
-    expect(response.body).toMatchObject({
-      ping: "Non-Authorized OK",
-    });
-  });
-
-  test("Should Require Authorised Access to Work", async () => {
+  fix this shittt
+  test("Should create a transaction", async () => {
     const response = await request(server)
-      .get("/api/transaction/ping")
+      .post("/api/transaction/create")
       .set({
         Authorization: `Bearer ${authToken}`,
       });
