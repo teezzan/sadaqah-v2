@@ -1,5 +1,5 @@
 import { PaystackAxios } from "./paystackAxios";
-import * as types from "../../types/services/paystack";
+import * as types from "../../../../types/transaction/providers/paystack";
 import * as errors from "./errors";
 
 // uses https://paystack.com/docs/payments/accept-payments/#redirect
@@ -16,17 +16,18 @@ export class OneTimePayment extends PaystackAxios {
       throw new errors.PaystackCurrencyMismatchError("currency mismatch");
     const { data } = await this.http().post("/transaction/initialize", {
       ...r,
-      amount: `${r.amount}00`, //in kobo
+      amount: `${r.amount}00`, //in kobo //wrong use correct number to coins method
       channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
     });
     return data?.data;
   }
 
   async verifyTransactionStatus(
-    //https://paystack.com/docs/payments/verify-payments/
     r: types.TransactionStatusRequest
   ): Promise<types.TransactionStatusResponse> {
-    const { data } = await this.http().get(`/transaction/verify/${r.reference}`);
+    const { data } = await this.http().get(
+      `/transaction/verify/${r.reference}`
+    );
     const status = data?.data?.status;
     if (!data.status) {
       throw new errors.PaystackApiError(`${data.message}`);

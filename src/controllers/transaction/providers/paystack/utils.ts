@@ -4,7 +4,7 @@ import {
   COUNTRY,
   SUPPORTED_CURRENCY,
   ListBankResponse,
-} from "../../types/services/paystack";
+} from "../../../../types/transaction/providers/paystack";
 
 export async function list_banks(
   country: COUNTRY,

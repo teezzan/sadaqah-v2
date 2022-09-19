@@ -7,6 +7,8 @@ import { UserHTTPHandler } from "../controllers/user/routes";
 import { UserService } from "../controllers/user/service";
 import { DatabaseConfiguration, DatabaseProvider } from "../database";
 import config from "../config";
+import { TransactionHTTPHandler } from "../controllers/transaction/routes";
+import { TransactionService } from "../controllers/transaction/service";
 
 const server = restify.createServer();
 
@@ -25,7 +27,13 @@ const dbConn = DatabaseProvider.getConnection();
 
 const userService = new UserService(logger, dbConn);
 const userHTTPHandler = new UserHTTPHandler(logger, userService);
-const routes = new Route(logger, userHTTPHandler);
+const transactionService = new TransactionService(logger, dbConn, userService);
+const transactionHTTPHandler = new TransactionHTTPHandler(
+  logger,
+  transactionService,
+  userHTTPHandler
+);
+const routes = new Route(logger, userHTTPHandler, transactionHTTPHandler);
 routes.SetupRouter(server);
 
 server.on("InternalServer", function (req, res, err, callback) {

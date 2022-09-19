@@ -16,6 +16,19 @@ export class UserService extends DefaultService implements DefaultService {
     return { ping: auth ? "Authorized OK" : "Non-Authorized OK" };
   }
 
+  async getUser(idToken: DecodedIdToken): Promise<User> {
+    const user = await User.findOne({
+      where: {
+        externalUserId: idToken.uid,
+      },
+    });
+
+    if (!user || !(user instanceof User)) {
+      throw new Error("User not registered");
+    }
+    return user;
+  }
+
   async createOrFetchUser(idToken: DecodedIdToken): Promise<User> {
     const [user, created] = await User.findOrCreate({
       where: {

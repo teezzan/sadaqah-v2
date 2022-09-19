@@ -1,5 +1,5 @@
 import { PaystackAxios } from "./paystackAxios";
-import * as types from "../../types/services/paystack";
+import * as types from "../../../../types/transaction/providers/paystack";
 import * as errors from "./errors";
 
 export class Withdraw extends PaystackAxios {
