@@ -1,5 +1,5 @@
 import { Group } from "../../database/models/group";
 
 export interface GroupServiceSchema {
-  createGroup(name: string): Promise<Group>;
+  createGroup(name: string, creatorID: string): Promise<Group>;
 }

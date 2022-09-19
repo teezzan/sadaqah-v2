@@ -13,19 +13,15 @@ export class UserService extends DefaultService implements UserServiceSchema {
     this.dbConn = dbConn;
   }
 
-  ping(auth: boolean): GenericObject<string> {
-    return { ping: auth ? "Authorized OK" : "Non-Authorized OK" };
-  }
-
-  async getUser(idToken: DecodedIdToken): Promise<User> {
+  async getUserByExternalId(externalUserId: string): Promise<User> {
     const user = await User.findOne({
       where: {
-        externalUserId: idToken.uid,
+        externalUserId,
       },
     });
 
-    if (!user || !(user instanceof User)) {
-      throw new Error("User not registered");
+    if (!user) {
+      throw new Error("User not found");
     }
     return user;
   }

@@ -1,12 +1,9 @@
 import { Router } from "restify-router";
-import logger = require("../../utils/logger");
 import * as errors from "restify-errors";
 import { DefaultHTTPHandler } from "../httpHandler";
 import winston = require("winston");
 import { Next, Response } from "restify";
 import { RequestWithContext } from "../../types/restify";
-import { APIGroup } from "./data/types";
-import { Group } from "../../database/models/group";
 import { GroupService } from "./service";
 import {
   schemaName,
@@ -14,6 +11,7 @@ import {
   BodyValidatonMiddleware,
 } from "./validator";
 import { Static } from "runtypes";
+import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 
 export class GroupHTTPHandler extends DefaultHTTPHandler {
   groupService: GroupService;
@@ -40,21 +38,17 @@ export class GroupHTTPHandler extends DefaultHTTPHandler {
       const payload = req.get(schemaName.CREATE_GROUP) as Static<
         typeof CreateGroupPayload
       >;
-      const group = await this.groupService.createGroup(payload.name);
-      const groupDetails = this.convertToAPIGroup(group);
+      const user = req.get("user") as DecodedIdToken;
+
+      const group = await this.groupService.createGroup(payload.name, user.uid);
+      const groupDetails = group.toAPIGroup(group);
       res.status(201);
       res.send(groupDetails);
       return next();
     } catch (error) {
+      // ToDo: Do error type check for better response.
+      this.logger.error(error);
       next(new errors.InternalServerError(error));
     }
-  };
-
-  convertToAPIGroup = (group: Group): APIGroup => {
-    const groupDetail: APIGroup = {
-      id: group.id,
-      name: group.name,
-    };
-    return groupDetail;
   };
 }

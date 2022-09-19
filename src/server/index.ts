@@ -28,7 +28,7 @@ const dbConn = DatabaseProvider.getConnection();
 })();
 
 const userService = new UserService(logger, dbConn);
-const groupService = new GroupService(logger, dbConn);
+const groupService = new GroupService(logger, dbConn, userService);
 const transactionService = new TransactionService(logger, dbConn, userService);
 
 const userHTTPHandler = new UserHTTPHandler(logger, userService);
