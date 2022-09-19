@@ -30,7 +30,10 @@ export class Route implements RouterController {
 
   SetupRouter(server: Server) {
     this.mainRouter.add("/user", this.userHTTPHandler.SetupRoutes());
-    this.mainRouter.add("/group", this.userHTTPHandler.SetupRoutes());
+    this.mainRouter.add(
+      "/group",
+      this.groupHTTPHandler.SetupRoutes(this.userHTTPHandler.AuthMiddleware)
+    );
     this.mainRouter.add(
       "/transaction",
       this.transactionHTTPHandler.SetupRoutes(

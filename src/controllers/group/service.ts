@@ -22,11 +22,35 @@ export class GroupService extends DefaultService implements GroupServiceSchema {
 
   async createGroup(name: string, creatorID: string): Promise<Group> {
     const user = await this.userService.getUserByExternalId(creatorID);
+    const groupWithDuplicateName = await this.getUserGroupByName(name, user.id);
+    if (groupWithDuplicateName.length != 0) {
+      throw new Error("Duplicate Group Name");
+    }
     const group = await Group.create({
       name,
-      members: [user],
     });
+    await group.$add("members", user);
+    await group.$add("admins", user);
+    return group;
+  }
 
+  async getUserGroupByName(name: string, userId: string): Promise<Group[]> {
+    const group = await Group.findAll({
+      where: {
+        name,
+      },
+      include: [
+        {
+          model: User,
+          as: "members",
+          through: {
+            where: {
+              userId: userId,
+            },
+          },
+        },
+      ],
+    });
     return group;
   }
 }

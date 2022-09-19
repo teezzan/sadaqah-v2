@@ -19,11 +19,25 @@ import { Group } from "./group";
 })
 export class Campaign extends Model {
   @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
+  id: string;
+
+  @Column({
     type: DataType.TEXT,
     field: "name",
   })
   name: string;
 
+  @Column({
+    type: DataType.UUID,
+    field: "group_id",
+    allowNull: false,
+  })
+  groupId: string;
+
   @BelongsTo(() => Group, "group_id")
-  group: Group
+  group: Group;
 }
