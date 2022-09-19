@@ -22,7 +22,7 @@ describe("Check Server Availability", () => {
         Authorization: `Bearer ${authToken}`,
       });
     expect(response.status).toBe(200);
-    expect(response).toMatchObject({
+    expect(response.body).toMatchObject({
       payment_link: expect.any(String),
       status: expect.any(String),
     });
