@@ -12,7 +12,7 @@ export class GroupService extends DefaultService implements DefaultService {
     this.dbConn = dbConn;
   }
 
-  async create(): Promise<Group> {
+  async create(name: string): Promise<Group> {
     return new Group({});
   }
 }

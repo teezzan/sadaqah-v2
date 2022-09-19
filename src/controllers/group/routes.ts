@@ -8,6 +8,11 @@ import { RequestWithContext } from "../../types/restify";
 import { APIGroup } from "./data/types";
 import { Group } from "../../database/models/group";
 import { GroupService } from "./service";
+import {
+  schemaName,
+  CreateGroupPayload,
+  schemaNameValidatorMap,
+} from "./validator";
 
 export class GroupHTTPHandler extends DefaultHTTPHandler {
   groupService: GroupService;
@@ -26,7 +31,10 @@ export class GroupHTTPHandler extends DefaultHTTPHandler {
 
   create = async (req: RequestWithContext, res: Response, next: Next) => {
     try {
-      const group = await this.groupService.create();
+      const validator = schemaNameValidatorMap[schemaName.CREATE_GROUP];
+      const payload = validator.check(req.body);
+
+      const group = await this.groupService.create(payload.name);
       const groupDetails = this.convertToAPIGroup(group);
       res.status(201);
       res.send(groupDetails);

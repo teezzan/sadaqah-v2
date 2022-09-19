@@ -27,6 +27,29 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
     return UserRouter;
   }
 
+  login = async (req: RequestWithContext, res: Response, next: Next) => {
+    try {
+      const decodedIDToken = req.get("user") as DecodedIdToken;
+      const user = await this.userService.createOrFetchUser(decodedIDToken);
+
+      res.status(200);
+      res.send(this.convertToAPIUser(user));
+      return next();
+    } catch (error) {
+      next(new errors.InternalServerError(error));
+    }
+  };
+
+  convertToAPIUser = (user: User): APIUser => {
+    const userDetail: APIUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    };
+    return userDetail;
+  };
+
   public async AuthMiddleware(
     req: RequestWithContext,
     res: Response,
@@ -69,27 +92,4 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
       next(new errors.InternalServerError(err));
     }
   }
-
-  login = async (req: RequestWithContext, res: Response, next: Next) => {
-    try {
-      const decodedIDToken = req.get("user") as DecodedIdToken;
-      const user = await this.userService.createOrFetchUser(decodedIDToken);
-      
-      res.status(200);
-      res.send(this.convertToAPIUser(user));
-      return next();
-    } catch (error) {
-      next(new errors.InternalServerError(error));
-    }
-  };
-
-  convertToAPIUser = (user: User): APIUser => {
-    const userDetail: APIUser = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
-    };
-    return userDetail;
-  };
 }
