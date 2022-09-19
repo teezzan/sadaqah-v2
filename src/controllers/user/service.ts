@@ -4,8 +4,9 @@ import winston = require("winston");
 import { User } from "../../database/models/user";
 import { DefaultService } from "../service";
 import { GenericObject } from "./data/types";
+import { UserServiceSchema } from "./serviceSchema";
 
-export class UserService extends DefaultService implements DefaultService {
+export class UserService extends DefaultService implements UserServiceSchema {
   dbConn: Sequelize;
   constructor(logger: winston.Logger, dbConn: Sequelize) {
     super(logger);

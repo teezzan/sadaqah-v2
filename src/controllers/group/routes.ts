@@ -11,8 +11,9 @@ import { GroupService } from "./service";
 import {
   schemaName,
   CreateGroupPayload,
-  schemaNameValidatorMap,
+  BodyValidatonMiddleware,
 } from "./validator";
+import { Static } from "runtypes";
 
 export class GroupHTTPHandler extends DefaultHTTPHandler {
   groupService: GroupService;
@@ -25,16 +26,21 @@ export class GroupHTTPHandler extends DefaultHTTPHandler {
   public SetupRoutes(authMiddleware: Function): Router {
     const GroupRouter = new Router();
 
-    GroupRouter.get("/create", authMiddleware, this.create);
+    GroupRouter.post(
+      "/create",
+      authMiddleware,
+      BodyValidatonMiddleware(schemaName.CREATE_GROUP),
+      this.createGroup
+    );
     return GroupRouter;
   }
 
-  create = async (req: RequestWithContext, res: Response, next: Next) => {
+  createGroup = async (req: RequestWithContext, res: Response, next: Next) => {
     try {
-      const validator = schemaNameValidatorMap[schemaName.CREATE_GROUP];
-      const payload = validator.check(req.body);
-
-      const group = await this.groupService.create(payload.name);
+      const payload = req.get(schemaName.CREATE_GROUP) as Static<
+        typeof CreateGroupPayload
+      >;
+      const group = await this.groupService.createGroup(payload.name);
       const groupDetails = this.convertToAPIGroup(group);
       res.status(201);
       res.send(groupDetails);

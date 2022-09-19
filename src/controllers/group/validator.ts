@@ -11,7 +11,8 @@ export const BodyValidatonMiddleware = (schemaName: schemaName) => {
   return (req: RequestWithContext, res: Response, next: Next) => {
     try {
       const validator = schemaNameValidatorMap[schemaName];
-      validator.check(req.body);
+      const validatedBody = validator.check(req.body);
+      req.set(schemaName, validatedBody);
       next();
     } catch (err) {
       next(new errors.BadRequestError(err));
@@ -23,6 +24,6 @@ export const enum schemaName {
   CREATE_GROUP = "create_group",
 }
 
-export const schemaNameValidatorMap = {
+const schemaNameValidatorMap = {
   [schemaName.CREATE_GROUP]: CreateGroupPayload,
 };

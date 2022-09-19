@@ -5,7 +5,7 @@ import {
 } from "../../types/transaction/transaction";
 import { GenericObject } from "./data/structures";
 
-export interface Service {
+export interface TransactionServiceSchema {
   ping(auth: boolean): GenericObject<string>;
 
   createTransaction(
