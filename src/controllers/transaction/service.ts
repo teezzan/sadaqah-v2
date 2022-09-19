@@ -31,7 +31,8 @@ export class TransactionService extends DefaultService implements Service {
     body: TransactionRequest,
     idToken: DecodedIdToken
   ): Promise<TransactionResponse> {
-    const user = await this.userService.getUser(idToken);
+    // const user = await this.userService.getUser(idToken);
+
     /*** @todo: Get user email from db ***/
     /*** @todo: confirm if user is actually in group ***/
     /*** @todo: create transaction with provider ***/
