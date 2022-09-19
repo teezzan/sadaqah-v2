@@ -12,24 +12,14 @@ import { UserHTTPHandler } from "../user/routes";
 
 export class TransactionHTTPHandler extends DefaultHTTPHandler {
   transactionService: TransactionService;
-  userHttpHandler: UserHTTPHandler;
-  constructor(
-    logger: winston.Logger,
-    transactionService: TransactionService,
-    userHttpHandler: UserHTTPHandler
-  ) {
+  constructor(logger: winston.Logger, transactionService: TransactionService) {
     super(logger);
     this.transactionService = transactionService;
-    this.userHttpHandler = userHttpHandler;
   }
 
-  public SetupRoutes(): Router {
+  public SetupRoutes(authMiddleware: Function): Router {
     const TransactionRouter = new Router();
-    TransactionRouter.post(
-      "/create",
-      this.userHttpHandler.AuthMiddleware,
-      this.createTransaction
-    );
+    TransactionRouter.post("/create", authMiddleware, this.createTransaction);
     return TransactionRouter;
   }
 
