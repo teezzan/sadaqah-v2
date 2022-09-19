@@ -7,7 +7,10 @@ import {
   CreatedAt,
   UpdatedAt,
   Sequelize,
+  BelongsToMany,
 } from "sequelize-typescript";
+import { Group } from "./group";
+import { UserGroup } from "./linkTables";
 
 const { QueryTypes } = require("sequelize");
 
@@ -49,4 +52,7 @@ export class User extends Model {
     field: "external_user_id",
   })
   externalUserId: string;
+
+  @BelongsToMany(() => Group, () => UserGroup)
+  groups: Array<Group & { UserGroup: UserGroup }>;
 }
