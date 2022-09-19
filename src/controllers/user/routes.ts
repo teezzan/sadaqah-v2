@@ -1,7 +1,6 @@
 import { Router } from "restify-router";
 import admin = require("../../utils/firebase");
 import * as errors from "restify-errors";
-import logger = require("../../utils/logger");
 import { UserService } from "./service";
 import { DefaultHTTPHandler } from "../httpHandler";
 import winston = require("winston");
@@ -10,8 +9,6 @@ import testUserStub from "../../tests/helpers/stubs/testUserStub";
 import { ErrorTypes } from "../../types/errors";
 import { RequestWithContext } from "../../types/restify";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
-import { APIUser } from "./data/types";
-import { User } from "../../database/models/user";
 
 export class UserHTTPHandler extends DefaultHTTPHandler {
   userService: UserService;
@@ -33,21 +30,12 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
       const user = await this.userService.createOrFetchUser(decodedIDToken);
 
       res.status(200);
-      res.send(this.convertToAPIUser(user));
+      res.send(user.toAPIUser(user));
       return next();
     } catch (error) {
+      this.logger.error(error);
       next(new errors.InternalServerError(error));
     }
-  };
-
-  convertToAPIUser = (user: User): APIUser => {
-    const userDetail: APIUser = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
-    };
-    return userDetail;
   };
 
   public async AuthMiddleware(

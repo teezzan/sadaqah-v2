@@ -46,4 +46,17 @@ export class Group extends Model {
 
   @HasMany(() => Transaction, "group_id")
   transactions: Transaction[];
+
+  toAPIGroup = (group: Group): APIGroup => {
+    const groupDetail: APIGroup = {
+      id: group.id,
+      name: group.name,
+    };
+    return groupDetail;
+  };
 }
+
+export type APIGroup = {
+  name: string;
+  id: string;
+};
