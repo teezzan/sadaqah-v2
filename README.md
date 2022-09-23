@@ -26,3 +26,6 @@ Run `npm i` to install all necessary packages.
 
 Run `make serve` to start the application. 
 Please take a look at both controllers for all available routes.
+
+# Contributor's Guide
+[Contribution Guidelines](Contribution.md)
