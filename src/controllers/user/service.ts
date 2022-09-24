@@ -5,6 +5,7 @@ import { User } from "../../database/models/user";
 import { DefaultService } from "../service";
 import { GenericObject } from "./data/types";
 import { UserServiceSchema } from "./serviceSchema";
+import admin = require("../../utils/firebase");
 
 export class UserService extends DefaultService implements UserServiceSchema {
   dbConn: Sequelize;
@@ -26,7 +27,9 @@ export class UserService extends DefaultService implements UserServiceSchema {
     return user;
   }
 
-  async createOrFetchUser(idToken: DecodedIdToken): Promise<User> {
+  async createOrFetchUser(
+    idToken: DecodedIdToken
+  ): Promise<{ user: User; isNewUser: boolean }> {
     const [user, created] = await User.findOrCreate({
       where: {
         externalUserId: idToken.uid,
@@ -40,13 +43,17 @@ export class UserService extends DefaultService implements UserServiceSchema {
     });
 
     if (!created) {
-      return await user.update({
+      await user.update({
         name: idToken.name,
         email: idToken.email,
         avatar: idToken.picture,
         externalUserId: idToken.uid,
       });
+    } else {
+      await admin.auth().setCustomUserClaims(idToken.uid, {
+        id: user.id,
+      });
     }
-    return user;
+    return { user, isNewUser: created };
   }
 }

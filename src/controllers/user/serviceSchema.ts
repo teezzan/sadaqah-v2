@@ -3,6 +3,8 @@ import { User } from "../../database/models/user";
 import { GenericObject } from "./data/types";
 
 export interface UserServiceSchema {
-  createOrFetchUser(idToken: DecodedIdToken): Promise<User>;
+  createOrFetchUser(
+    idToken: DecodedIdToken
+  ): Promise<{ user: User; isNewUser: boolean }>;
   getUserByExternalId(externalUserId: string): Promise<User>;
 }

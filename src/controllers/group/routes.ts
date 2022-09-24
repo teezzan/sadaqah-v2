@@ -41,7 +41,7 @@ export class GroupHTTPHandler extends DefaultHTTPHandler {
       const user = req.get("user") as DecodedIdToken;
 
       const group = await this.groupService.createGroup(payload.name, user.uid);
-      const groupDetails = group.toAPIGroup(group);
+      const groupDetails = group.toAPIGroup();
       res.status(201);
       res.send(groupDetails);
       return next();

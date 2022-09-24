@@ -27,10 +27,12 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
   login = async (req: RequestWithContext, res: Response, next: Next) => {
     try {
       const decodedIDToken = req.get("user") as DecodedIdToken;
-      const user = await this.userService.createOrFetchUser(decodedIDToken);
+      const { user, isNewUser } = await this.userService.createOrFetchUser(
+        decodedIDToken
+      );
 
       res.status(200);
-      res.send(user.toAPIUser(user));
+      res.send({ ...user.toAPIUser(), isNewUser });
       return next();
     } catch (error) {
       this.logger.error(error);
@@ -67,6 +69,7 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
 
       if (decodeValue) {
         req.set("user", decodeValue);
+        req.set("token", token);
         return next();
       }
       next(new errors.UnauthorizedError("Unauthorized"));
