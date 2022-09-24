@@ -14,9 +14,7 @@ import { Group } from "./group";
   createdAt: "created",
   deletedAt: false,
 })
-
 export class Transaction extends Model {
-
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
@@ -32,11 +30,11 @@ export class Transaction extends Model {
   userId: bigint;
 
   @Column({
-    type: DataType.BIGINT,
+    type: DataType.UUID,
     field: "group_id",
     allowNull: false,
   })
-  groupId: bigint;
+  groupId: string;
 
   @Column({
     type: DataType.INTEGER,

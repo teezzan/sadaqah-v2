@@ -4,27 +4,24 @@ import winston = require("winston");
 import { User } from "../../database/models/user";
 import { DefaultService } from "../service";
 import { GenericObject } from "./data/types";
+import { UserServiceSchema } from "./serviceSchema";
 
-export class UserService extends DefaultService implements DefaultService {
+export class UserService extends DefaultService implements UserServiceSchema {
   dbConn: Sequelize;
   constructor(logger: winston.Logger, dbConn: Sequelize) {
     super(logger);
     this.dbConn = dbConn;
   }
 
-  ping(auth: boolean): GenericObject<string> {
-    return { ping: auth ? "Authorized OK" : "Non-Authorized OK" };
-  }
-
-  async getUser(idToken: DecodedIdToken): Promise<User> {
+  async getUserByExternalId(externalUserId: string): Promise<User> {
     const user = await User.findOne({
       where: {
-        externalUserId: idToken.uid,
+        externalUserId,
       },
     });
 
-    if (!user || !(user instanceof User)) {
-      throw new Error("User not registered");
+    if (!user) {
+      throw new Error("User not found");
     }
     return user;
   }

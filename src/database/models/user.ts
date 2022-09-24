@@ -7,7 +7,10 @@ import {
   CreatedAt,
   UpdatedAt,
   Sequelize,
+  BelongsToMany,
 } from "sequelize-typescript";
+import { Group } from "./group";
+import { UserGroup } from "./linkTables";
 
 const { QueryTypes } = require("sequelize");
 
@@ -49,4 +52,24 @@ export class User extends Model {
     field: "external_user_id",
   })
   externalUserId: string;
+
+  @BelongsToMany(() => Group, () => UserGroup)
+  groups: Array<Group & { UserGroup: UserGroup }>;
+
+  toAPIUser = (user: User): APIUser => {
+    const userDetail: APIUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    };
+    return userDetail;
+  };
 }
+
+export type APIUser = {
+  name: string;
+  email: string;
+  avatar: string;
+  id: string;
+};

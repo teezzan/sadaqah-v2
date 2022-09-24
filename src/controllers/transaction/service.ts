@@ -1,8 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import winston = require("winston");
-import { Transaction } from "../../database/models/transaction";
 import { DefaultService } from "../service";
-import { Service } from "./serviceSchema";
+import { TransactionServiceSchema } from "./serviceSchema";
 import { GenericObject } from "./data/structures";
 import {
   TransactionRequest,
@@ -12,7 +11,10 @@ import { testResponse } from "../../tests/helpers/stubs/testTransactionStub";
 import { UserService } from "../user/service";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 
-export class TransactionService extends DefaultService implements Service {
+export class TransactionService
+  extends DefaultService
+  implements TransactionServiceSchema
+{
   dbConn: Sequelize;
   userService: UserService;
   constructor(
@@ -31,7 +33,6 @@ export class TransactionService extends DefaultService implements Service {
     body: TransactionRequest,
     idToken: DecodedIdToken
   ): Promise<TransactionResponse> {
-    // const user = await this.userService.getUser(idToken);
 
     /*** @todo: Get user email from db ***/
     /*** @todo: confirm if user is actually in group ***/

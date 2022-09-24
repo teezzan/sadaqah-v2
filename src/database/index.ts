@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize-typescript";
 import { Group } from "./models/group";
 import { User } from "./models/user";
 import { Transaction } from "./models/transaction";
+import { UserGroup, UserGroupAdmin } from "./models/linkTables";
+import { Campaign } from "./models/campaign";
 
 export interface DatabaseConfiguration {
   type: "postgres" | "mysql" | "mssql";
@@ -42,7 +44,7 @@ export class DatabaseProvider {
       password,
       ssl,
       logging: false,
-      models: [Group, User, Transaction],
+      models: [Group, User, Transaction, UserGroup, UserGroupAdmin, Campaign],
     });
 
     return DatabaseProvider.connection;

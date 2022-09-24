@@ -16,7 +16,7 @@ describe("User Controller methods", () => {
     server.close();
   });
 
-  test("Should Return user details", async () => {
+  test("Should return user details", async () => {
     const response = await request(server)
       .get("/api/user/login")
       .set({
