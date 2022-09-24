@@ -3,6 +3,7 @@ import server from "../../server";
 import * as request from "supertest";
 import { createTestUser } from "../helpers/createUserHelper";
 import { DatabaseProvider } from "../../database";
+import { truncateGroupTable } from "../helpers/truncateGroupTable";
 
 let user;
 let authToken: string;
@@ -17,7 +18,8 @@ describe("Group controller methods", () => {
         Authorization: `Bearer ${authToken}`,
       });
   });
-  afterAll(() => {
+  afterAll(async () => {
+    await truncateGroupTable();
     server.close();
   });
 

@@ -10,7 +10,7 @@ describe("User Controller methods", () => {
   beforeAll(async () => {
     const dbConn = DatabaseProvider.getConnection();
     await dbConn.sync();
-    [user, authToken] = await createTestUser({});
+    [user, authToken] = await createTestUser();
   });
   afterAll(() => {
     server.close();
