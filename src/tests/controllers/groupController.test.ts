@@ -10,7 +10,7 @@ describe("Group controller methods", () => {
   beforeAll(async () => {
     const dbConn = DatabaseProvider.getConnection();
     await dbConn.sync();
-    [user, authToken] = await createTestUser({});
+    [user, authToken] = await createTestUser();
     await request(server)
       .get("/api/user/login")
       .set({
