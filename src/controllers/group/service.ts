@@ -20,8 +20,8 @@ export class GroupService extends DefaultService implements GroupServiceSchema {
     this.userService = userService;
   }
 
-  async createGroup(name: string, creatorID: string): Promise<Group> {
-    const user = await this.userService.getUserByExternalId(creatorID);
+  async createGroup(name: string, userId: string): Promise<Group> {
+    const user = await this.userService.getById(userId);
     const groupWithDuplicateName = await this.getUserGroupByName(name, user.id);
     if (groupWithDuplicateName.length != 0) {
       throw new Error("Duplicate Group Name");

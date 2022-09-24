@@ -10,6 +10,8 @@ import { ErrorTypes } from "../../types/errors";
 import { RequestWithContext } from "../../types/restify";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 
+const loginRoute = "/api/user/login";
+
 export class UserHTTPHandler extends DefaultHTTPHandler {
   userService: UserService;
 
@@ -69,7 +71,13 @@ export class UserHTTPHandler extends DefaultHTTPHandler {
 
       if (decodeValue) {
         req.set("user", decodeValue);
-        req.set("token", token);
+        if (decodeValue.id) {
+          req.set("userId", decodeValue.id);
+        } else if (req.path() != loginRoute) {
+          return next(
+            new errors.BadRequestError("Refresh current firebase token")
+          );
+        }
         return next();
       }
       next(new errors.UnauthorizedError("Unauthorized"));

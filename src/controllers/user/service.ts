@@ -14,10 +14,23 @@ export class UserService extends DefaultService implements UserServiceSchema {
     this.dbConn = dbConn;
   }
 
-  async getUserByExternalId(externalUserId: string): Promise<User> {
+  async getByExternalId(externalUserId: string): Promise<User> {
     const user = await User.findOne({
       where: {
         externalUserId,
+      },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user;
+  }
+
+  async getById(userId: string): Promise<User> {
+    const user = await User.findOne({
+      where: {
+        id: userId,
       },
     });
 

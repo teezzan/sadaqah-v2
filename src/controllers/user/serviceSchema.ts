@@ -6,5 +6,6 @@ export interface UserServiceSchema {
   createOrFetchUser(
     idToken: DecodedIdToken
   ): Promise<{ user: User; isNewUser: boolean }>;
-  getUserByExternalId(externalUserId: string): Promise<User>;
+  getByExternalId(externalUserId: string): Promise<User>;
+  getById(userId: string): Promise<User>;
 }
