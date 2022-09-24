@@ -10,6 +10,6 @@ export interface TransactionServiceSchema {
 
   createTransaction(
     body: TransactionRequest,
-    idToken: DecodedIdToken
+    userId: string
   ): Promise<TransactionResponse>;
 }
