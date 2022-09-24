@@ -56,12 +56,12 @@ export class User extends Model {
   @BelongsToMany(() => Group, () => UserGroup)
   groups: Array<Group & { UserGroup: UserGroup }>;
 
-  toAPIUser = (user: User): APIUser => {
+  toAPIUser = (): APIUser => {
     const userDetail: APIUser = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      avatar: this.avatar,
     };
     return userDetail;
   };
