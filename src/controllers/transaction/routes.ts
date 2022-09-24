@@ -36,10 +36,10 @@ export class TransactionHTTPHandler extends DefaultHTTPHandler {
           )
         );
       }
-      const decodedIDToken = req.get("user") as DecodedIdToken;
+      const userId = req.get("userId") as string;
       const result = await this.transactionService.createTransaction(
         req.body as TransactionRequest,
-        decodedIDToken
+        userId
       );
       res.status(200);
       res.send(result);

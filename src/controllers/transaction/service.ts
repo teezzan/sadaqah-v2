@@ -31,7 +31,7 @@ export class TransactionService
   }
   async createTransaction(
     body: TransactionRequest,
-    idToken: DecodedIdToken
+    userId: string
   ): Promise<TransactionResponse> {
 
     /*** @todo: Get user email from db ***/

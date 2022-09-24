@@ -47,10 +47,10 @@ export class Group extends Model {
   @HasMany(() => Transaction, "group_id")
   transactions: Transaction[];
 
-  toAPIGroup = (group: Group): APIGroup => {
+  toAPIGroup = (): APIGroup => {
     const groupDetail: APIGroup = {
-      id: group.id,
-      name: group.name,
+      id: this.id,
+      name: this.name,
     };
     return groupDetail;
   };

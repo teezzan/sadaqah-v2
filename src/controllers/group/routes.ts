@@ -11,7 +11,6 @@ import {
   BodyValidatonMiddleware,
 } from "./validator";
 import { Static } from "runtypes";
-import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 
 export class GroupHTTPHandler extends DefaultHTTPHandler {
   groupService: GroupService;
@@ -38,10 +37,9 @@ export class GroupHTTPHandler extends DefaultHTTPHandler {
       const payload = req.get(schemaName.CREATE_GROUP) as Static<
         typeof CreateGroupPayload
       >;
-      const user = req.get("user") as DecodedIdToken;
-
-      const group = await this.groupService.createGroup(payload.name, user.uid);
-      const groupDetails = group.toAPIGroup(group);
+      const userId = req.get("userId") as string;
+      const group = await this.groupService.createGroup(payload.name, userId);
+      const groupDetails = group.toAPIGroup();
       res.status(201);
       res.send(groupDetails);
       return next();
